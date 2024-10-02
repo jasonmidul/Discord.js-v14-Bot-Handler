@@ -109,6 +109,7 @@ class Premium extends Command {
             ephemeral: true,
           });
         }
+        break;
       case "list":
         const page = interaction.options.getNumber("page") || 1;
         const premiumData = await premiumDatas.find();
