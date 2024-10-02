@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const botDatas = require("./Bot/BotDatas");
+const premiumDatas = require("./Server/PremiumDatas");
 
 function ConnectMongo(client) {
   if (client.config.mongoUrl) {
@@ -17,4 +18,4 @@ function ConnectMongo(client) {
   } else console.log(`You forget to add mongoUrl in config.js`);
 }
 
-module.exports = { ConnectMongo, botDatas };
+module.exports = { ConnectMongo, botDatas, premiumDatas };

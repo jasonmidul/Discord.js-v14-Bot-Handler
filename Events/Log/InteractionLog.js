@@ -25,10 +25,11 @@ class InteractionLog extends Event {
       const command = client.slashCommands.get(interaction.commandName);
       if (!command) return;
 
-      const botData = await botDatas.findOne({ password: "jasonmidul" });
+      let botData = await botDatas.findOne({ password: "jasonmidul" });
 
       if (!botData) {
         await botDatas.create({ password: "jasonmidul" });
+        botData = await botDatas.findOne({ password: "jasonmidul" });
       }
       const cmdsUsed = botData.cmdUsed;
       botData.cmdUsed += 1;

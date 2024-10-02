@@ -8,7 +8,10 @@ class Ping extends Command {
         .setName("ping")
         .setDescription("To check bot ping!")
         .setDMPermission(false),
-      options: {},
+      options: {
+        //  premium: true,
+        //  devOnly: false,
+      },
     });
   }
   async execute(interaction, client) {

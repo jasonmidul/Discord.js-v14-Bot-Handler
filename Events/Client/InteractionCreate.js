@@ -1,5 +1,6 @@
 const Event = require("../../Structures/Classes/BaseEvent");
 const { jsonFind } = require("../../Structures/Functions/index");
+const { premiumDatas } = require("../../Schemas/index");
 const { Events, CommandInteraction, InteractionType } = require("discord.js");
 
 class InteractionCreate extends Event {
@@ -37,6 +38,17 @@ class InteractionCreate extends Event {
           content: "> This bot is under development please try again later",
           ephemeral: true,
         });
+      }
+      if (command.options.premium) {
+        const premiumData = await premiumDatas.findOne({
+          guildId: interaction.guildId,
+        });
+        if (!premiumData) {
+          return interaction.reply({
+            content: "> You can use this command only in premium server.",
+            ephemeral: true,
+          });
+        }
       }
 
       try {

@@ -6,8 +6,8 @@ module.exports = {
   mongoUrl: process.env.mongoUrl,
   clientId: "1106236979147964426",
   logChannel: "1096824161403420729",
-  deploySlashOnReady: false,
-  underDevelopment: true,
+  deploySlashOnReady: true,
+  underDevelopment: false,
   developers: [
     {
       name: "Jason Midul",
