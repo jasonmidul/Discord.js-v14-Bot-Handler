@@ -1,5 +1,6 @@
 const Event = require("../../Structures/Classes/BaseEvent");
 const { CommandHandler } = require("../../Structures/Handlers/CommandHandler");
+const { ConnectMongo } = require("../../Schemas/index");
 const { Events, ActivityType, PresenceUpdateStatus } = require("discord.js");
 class Ready extends Event {
   constructor(client) {
@@ -34,6 +35,12 @@ class Ready extends Event {
     }
 
     console.log(`${client.user.username} is ready!`);
+
+    try {
+      await ConnectMongo(client);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
