@@ -1,9 +1,7 @@
 const { GatewayIntentBits, Partials } = require("discord.js");
 const { BotClient } = require("./Structures/Classes/BotClient");
-const { AntiCrash } = require("./Structures/Functions/AntiCrash");
+const { ErrorHandler } = require("./Structures/Handlers/ErrorHandler");
 const { ClusterClient, getInfo } = require("discord-hybrid-sharding");
-
-AntiCrash();
 
 const clientOptions = {
   allowedMentions: {
@@ -22,5 +20,7 @@ const clientOptions = {
 
 const client = new BotClient(clientOptions);
 client.cluster = new ClusterClient(client);
+
+ErrorHandler(client);
 
 client.start();

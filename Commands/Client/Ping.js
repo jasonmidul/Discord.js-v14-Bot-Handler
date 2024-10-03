@@ -14,7 +14,7 @@ class Ping extends Command {
       },
     });
   }
-  async execute(interaction, client) {
+  async execute(interactionN, client) {
     await interaction.reply(`> Pong! Please wait...`);
     const msg = await interaction.fetchReply();
     const ping = Math.floor(

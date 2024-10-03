@@ -26,4 +26,6 @@ module.exports = {
       id: "1280838788591124541",
     },
   ],
+  logWebhook:
+    "https://discord.com/api/webhooks/1291377199173210112/lpVTkvUN2JEQyhwQ2gKcJOTylPATYZ-BU4f7MYF7kFeKbcQ0rREcJ5o4GPRRvReK7Stx",
 };
