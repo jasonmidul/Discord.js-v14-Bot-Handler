@@ -1,5 +1,9 @@
 const Command = require("../../Structures/Classes/BaseCommand");
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  AttachmentBuilder,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 class Eval extends Command {
   constructor(client) {
@@ -40,12 +44,24 @@ class Eval extends Command {
         return text;
       }
 
-      const cleaned = await clean(client, evaled);
+      const reply = await clean(client, evaled);
 
-      interaction.reply({
-        content: `\`\`\`js\n${cleaned}\n\`\`\``,
-        ephemeral: true,
-      });
+      if (reply?.length > 1980) {
+        const buffer = Buffer.from(reply, "utf8");
+        const txtFile = new AttachmentBuilder(buffer, {
+          name: `${interaction.user.username}_response.txt`,
+        });
+
+        await interaction.reply({
+          files: [txtFile],
+          ephemeral: true,
+        });
+      } else {
+        interaction.reply({
+          content: `\`\`\`js\n${cleaned}\n\`\`\``,
+          ephemeral: true,
+        });
+      }
     } catch (err) {
       interaction.reply({
         content: `\`ERROR\` \n\`\`\`xl\n${err}\n\`\`\``,
