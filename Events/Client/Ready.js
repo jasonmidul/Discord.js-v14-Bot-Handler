@@ -34,7 +34,9 @@ class Ready extends Event {
       console.log(error);
     }
 
-    console.log(`${client.user.username} is ready!`);
+    console.log(
+      `${client.user.username} is ready in cluster #${client.cluster.id}!`
+    );
 
     try {
       await ConnectMongo(client);

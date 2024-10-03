@@ -58,7 +58,7 @@ class Eval extends Command {
         });
       } else {
         interaction.reply({
-          content: `\`\`\`js\n${cleaned}\n\`\`\``,
+          content: `\`\`\`js\n${reply}\n\`\`\``,
           ephemeral: true,
         });
       }
