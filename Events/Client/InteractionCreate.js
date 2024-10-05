@@ -21,7 +21,7 @@ class InteractionCreate extends Event {
       if (!command) return;
 
       if (
-        command.options.devOnly &&
+        command.options?.devOnly &&
         !jsonFind(interaction.user.id, client.config.developers)
       ) {
         return await interaction.reply({
@@ -40,7 +40,7 @@ class InteractionCreate extends Event {
           ephemeral: true,
         });
       }
-      if (command.options.premium) {
+      if (command.options?.premium) {
         const premiumData = await premiumDatas.findOne({
           guildId: interaction.guildId,
         });
@@ -48,6 +48,13 @@ class InteractionCreate extends Event {
           return interaction.reply({
             content: "> You can use this command only in premium server.",
             ephemeral: true,
+          });
+        }
+        if (premiumData.redeemAt + premiumData.duration >= Date.now()) {
+          return interaction.reply({
+            content: `> You can use premium command because, this servers ptrmium session has expired <t:${parseInt(
+              `${(Date.now() + redeemCode.duration) / 1000}`
+            )}:R>.`,
           });
         }
       }

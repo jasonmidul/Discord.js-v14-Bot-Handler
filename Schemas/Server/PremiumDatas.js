@@ -7,7 +7,23 @@ const premiumSchema = new Schema({
   },
   guildName: {
     type: String,
-    default: 1,
+    default: "undefined",
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+  redeemAt: {
+    type: Number,
+    required: true,
+  },
+  codeBy: {
+    type: String,
+    required: true,
+  },
+  by: {
+    type: String,
+    required: true,
   },
 });
 
