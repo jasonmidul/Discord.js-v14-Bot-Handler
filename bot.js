@@ -1,6 +1,9 @@
 const { GatewayIntentBits, Partials } = require("discord.js");
 const { BotClient } = require("./Structures/Classes/BotClient");
-const { ErrorHandler } = require("./Structures/Handlers/ErrorHandler");
+const {
+  ErrorHandler,
+  ClientErrorHandler,
+} = require("./Structures/Handlers/ErrorHandler");
 const { ClusterClient, getInfo } = require("discord-hybrid-sharding");
 
 const clientOptions = {
@@ -21,6 +24,7 @@ const clientOptions = {
 const client = new BotClient(clientOptions);
 client.cluster = new ClusterClient(client);
 
-ErrorHandler(client);
+ErrorHandler();
+ClientErrorHandler(client);
 
 client.start();

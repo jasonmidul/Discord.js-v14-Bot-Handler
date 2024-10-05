@@ -1,7 +1,8 @@
 const Event = require("../../Structures/Classes/BaseEvent");
-const { jsonFind } = require("../../Structures/Functions/index");
-const { premiumDatas } = require("../../Schemas/index");
+const { jsonFind, Logger } = require("../../Structures/Functions/index");
+const { premiumDatas } = require("../../Schemas/index.js");
 const { Events, CommandInteraction, InteractionType } = require("discord.js");
+const logger = new Logger();
 
 class InteractionCreate extends Event {
   constructor(client) {
@@ -54,7 +55,7 @@ class InteractionCreate extends Event {
       try {
         await command.execute(interaction, client);
       } catch (error) {
-        console.log(error);
+        logger.error(error);
         if (interaction.replied) {
           await interaction.editReply({
             content: "Catch an error while running this command.",

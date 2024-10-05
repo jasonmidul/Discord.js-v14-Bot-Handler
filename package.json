@@ -1,6 +1,6 @@
 {
   "name": "v14-bot-handler",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",

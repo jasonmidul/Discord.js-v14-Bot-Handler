@@ -1,5 +1,5 @@
 const Event = require("../../Structures/Classes/BaseEvent");
-const { botDatas } = require("../../Schemas/index");
+const { botDatas } = require("../../Schemas/index.js");
 const {
   Events,
   CommandInteraction,

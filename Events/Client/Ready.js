@@ -1,7 +1,10 @@
 const Event = require("../../Structures/Classes/BaseEvent");
 const { CommandHandler } = require("../../Structures/Handlers/CommandHandler");
-const { ConnectMongo } = require("../../Schemas/index");
+const { ConnectMongo } = require("../../Schemas/index.js");
 const { Events, ActivityType, PresenceUpdateStatus } = require("discord.js");
+const { Logger } = require("../../Structures/Functions/index");
+const logger = new Logger();
+
 class Ready extends Event {
   constructor(client) {
     super(client, {
@@ -31,17 +34,15 @@ class Ready extends Event {
     try {
       await loadCommands(client, client.config.deploySlashOnReady);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
 
-    console.log(
-      `${client.user.username} is ready in cluster #${client.cluster.id}!`
-    );
+    logger.success(`${client.user.username}(#${client.cluster.id}) is ready!`);
 
     try {
       await ConnectMongo(client);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   }
 }

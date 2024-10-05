@@ -1,110 +1,101 @@
-const { EmbedBuilder, WebhookClient, Colors } = require("discord.js");
+const { WebhookClient } = require("discord.js");
 const { inspect } = require("util");
+const { Logger } = require("../Functions/index");
+const logger = new Logger();
+const config = require("../../config");
 
-async function ErrorHandler(client) {
+async function ClientErrorHandler(client) {
   const webhook = new WebhookClient({
-    url: client.config.logWebhook,
+    url: config.logWebhook,
   });
-  console.log("Error Handler has been loaded");
-
-  const embed = new EmbedBuilder();
   client.on("error", (err) => {
-    console.log(`${err}`);
-
-    embed
-      .setTitle("Discord API Error")
-      .setURL("https://discordjs.guide/popular-topics/errors.html#api-errors")
-      .setColor(Colors.Red)
-      .setDescription(
-        `\`\`\`${inspect(err, { depth: 0 }).slice(0, 1000)}\`\`\``
-      )
-      .setTimestamp();
-
-    return webhook.send({ embeds: [embed] });
+    logger.custom(`${err}`);
+    return webhook.send({
+      content: `⛔ **Discord API Error** \`\`\`${inspect(err, {
+        depth: 0,
+      }).slice(0, 1990)}\`\`\``,
+    });
   });
+}
+async function ErrorHandler() {
+  const webhook = new WebhookClient({
+    url: config.logWebhook,
+  });
+  logger.success("Error Handler has been loaded");
+
   process.on("unhandledRejection", (reason, promise) => {
-    console.log(`${reason}`);
+    logger.custom(`${reason}`);
 
-    embed
-      .setTitle("Unhandled Rejection/Catch")
-      .setURL("https://nodejs.org/api/process.html#event-unhandledrejection")
-      .setColor(Colors.Red)
-      .addFields(
-        {
-          name: `Reason`,
-          value: `\`\`\`${inspect(reason, { depth: 0 }).slice(0, 1000)}\`\`\``,
-        },
-        {
-          name: "Promise",
-          value: `\`\`\`${inspect(promise, { depth: 0 }).slice(0, 1000)}\`\`\``,
-        }
-      )
-      .setTimestamp();
-
-    return webhook.send({ embeds: [embed] });
+    webhook.send({
+      content: `## ‼️ Unhandled Rejection/Catch`,
+    });
+    webhook.send({
+      content: `**Reason** \`\`\`${inspect(reason, { depth: 0 }).slice(
+        0,
+        1990
+      )}\`\`\``,
+    });
+    return webhook.send({
+      content: `**Promise** \`\`\`${inspect(promise, { depth: 0 }).slice(
+        0,
+        1990
+      )}\`\`\``,
+    });
   });
 
   process.on("uncaughtException", (err, origin) => {
-    console.log(`${err} \n ${origin}`);
+    logger.custom(`${err}`);
 
-    embed
-      .setTitle("Uncaught Exception/Catch")
-      .setColor(Colors.Red)
-      .setURL("https://nodejs.org/api/process.html#event-uncaughtexception")
-      .addFields(
-        {
-          name: `Error`,
-          value: `\`\`\`${inspect(err, { depth: 0 }).slice(0, 1000)}\`\`\``,
-        },
-        {
-          name: "Origin",
-          value: `\`\`\`${inspect(origin, { depth: 0 }).slice(0, 1000)}\`\`\``,
-        }
-      )
-      .setTimestamp();
-
-    return webhook.send({ embeds: [embed] });
+    webhook.send({
+      content: `## ‼️ Uncaught Exception/Catch`,
+    });
+    webhook.send({
+      content: `**Error** \`\`\`${inspect(err, { depth: 0 }).slice(
+        0,
+        1990
+      )}\`\`\``,
+    });
+    return webhook.send({
+      content: `**Origin** \`\`\`${inspect(origin, { depth: 0 }).slice(
+        0,
+        1990
+      )}\`\`\``,
+    });
   });
 
   process.on("uncaughtExceptionMonitor", (err, origin) => {
-    console.log(`${err} \n ${origin}`);
+    logger.custom(`${err}`);
 
-    embed
-      .setTitle("Uncaught Exception Monitor")
-      .setColor(Colors.Red)
-      .setURL(
-        "https://nodejs.org/api/process.html#event-uncaughtexceptionmonitor"
-      )
-      .addFields(
-        {
-          name: `Error`,
-          value: `\`\`\`${inspect(err, { depth: 0 }).slice(0, 1000)}\`\`\``,
-        },
-        {
-          name: "Origin",
-          value: `\`\`\`${inspect(origin, { depth: 0 }).slice(0, 1000)}\`\`\``,
-        }
-      )
-      .setTimestamp();
-
-    return webhook.send({ embeds: [embed] });
+    webhook.send({
+      content: `## ‼️ Uncaught Exception Monitor`,
+    });
+    webhook.send({
+      content: `**Error** \`\`\`${inspect(err, { depth: 0 }).slice(
+        0,
+        1990
+      )}\`\`\``,
+    });
+    return webhook.send({
+      content: `**Origin** \`\`\`${inspect(origin, { depth: 0 }).slice(
+        0,
+        1990
+      )}\`\`\``,
+    });
   });
 
   process.on("warning", (warn) => {
-    console.log(`Warn : ${warn}`);
+    logger.custom(`${warn}`);
 
-    embed
-      .setTitle("Uncaught Exception Monitor Warning")
-      .setColor(Colors.Red)
-      .setURL("https://nodejs.org/api/process.html#event-warning")
-      .addFields({
-        name: `Warn`,
-        value: `\`\`\`${inspect(warn, { depth: 0 }).slice(0, 1000)}\`\`\``,
-      })
-      .setTimestamp();
-
-    return webhook.send({ embeds: [embed] });
+    webhook.send({
+      content: `## ⚠️ Uncaught Exception Monitor Warning`,
+    });
+    return webhook.send({
+      content: `**Warn** \`\`\`${inspect(warn, { depth: 0 }).slice(
+        0,
+        1990
+      )}\`\`\``,
+    });
   });
 }
 
-module.exports = { ErrorHandler };
+module.exports = { ErrorHandler, ClientErrorHandler };

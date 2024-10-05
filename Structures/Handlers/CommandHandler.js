@@ -3,6 +3,8 @@ const path = require("path");
 const AsciiTable = require("ascii-table");
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord.js");
+const { Logger } = require("../Functions/index");
+const logger = new Logger();
 
 class CommandHandler {
   constructor() {}
@@ -51,8 +53,8 @@ class CommandHandler {
       });
     });
     console.log(CommandsTable.toString());
-    console.log(`</> • ${cmdCount} Slash commands has been loaded.`);
-    console.log(`</> • ${devCmdCount} Developer commands has been loaded.`);
+    logger.info(`</> • ${cmdCount} Slash commands has been loaded.`);
+    logger.info(`</> • ${devCmdCount} Developer commands has been loaded.`);
 
     if (isCmdDeploy) {
       const rest = new REST({ version: "10" }).setToken(client.config.botToken);
@@ -61,7 +63,7 @@ class CommandHandler {
           await rest.put(Routes.applicationCommands(client.config.clientId), {
             body: commandArray,
           });
-          console.log(
+          logger.success(
             `</> • ${cmdCount} Slash commands has been registered globally.`
           );
           client.config.devGuilds.forEach(async (guild) => {
@@ -71,12 +73,12 @@ class CommandHandler {
                 body: devCommandArray,
               }
             );
-            console.log(
+            logger.warn(
               `</> • Dev Commands registered for guild "${guild.name}"`
             );
           });
         } catch (error) {
-          console.log(error);
+          logger.error(error);
         }
       })();
     }

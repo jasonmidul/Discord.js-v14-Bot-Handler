@@ -40,7 +40,6 @@ class Eval extends Command {
           .replace(/`/g, "`" + String.fromCharCode(8203))
           .replace(/@/g, "@" + String.fromCharCode(8203));
         text = text.replaceAll(client.token, "[REDACTED]");
-
         return text;
       }
 

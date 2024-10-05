@@ -1,6 +1,8 @@
 const { Client, Collection } = require("discord.js");
 const { EventHandler } = require("../Handlers/EventHandler");
+const { Logger } = require("../Functions/index");
 const Config = require("../../config");
+const logger = new Logger();
 
 class BotClient extends Client {
   constructor(options) {
@@ -20,7 +22,7 @@ class BotClient extends Client {
     try {
       await loadEvents(this);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   }
 }
