@@ -10,13 +10,17 @@
 ## Features
 
 - Developed using Discord.js v14
-- hybrid-sharding
 - Coustom client
+- Event handler
+- Button handler
+- Modal handler
+- Autocomplete handler
 - Advanced slash command handler
 - Events and commands reload command
+- hybrid-sharding
 - Dev guild only command
-- Event handler
-- Premium system
+- Guild premium system
+- User premium system
 - Eval slash command
 
 ## ⭐Motivate me with a star if you like this repo⭐
