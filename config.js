@@ -27,5 +27,5 @@ module.exports = {
     },
   ],
   logWebhook:
-    "https://discord.com/api/webhooks/1292075908064083968/hLa1hFhyG_vCWT2fDIZ07feMy4idkFQLphTVEp-ImWxtvr9lc_EuGAytwfewqpMsYDRz",
+    "https://discord.com/api/webhooks/1292334774337142926/-c0gep8sEydmdSoUi8oFdixkb5rwcbZSAnlKLzCBC_I8_l7V0anZuQC0Gt1vrB0bpiZ9",
 };

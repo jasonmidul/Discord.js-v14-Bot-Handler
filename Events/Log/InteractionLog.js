@@ -21,7 +21,6 @@ class InteractionLog extends Event {
       interaction instanceof CommandInteraction &&
       interaction.type === InteractionType.ApplicationCommand
     ) {
-      if (interaction.guild === null) return;
       const command = client.slashCommands.get(interaction.commandName);
       if (!command) return;
 
@@ -36,7 +35,7 @@ class InteractionLog extends Event {
       botData.save();
 
       const channel = await client.channels.cache.get(client.config.logChannel);
-      const server = interaction.guild.name;
+      const server = interaction.guild?.name || "user";
       const user = interaction.user.username;
       const userId = interaction.user.id;
 
@@ -45,7 +44,10 @@ class InteractionLog extends Event {
         .setColor(Colors.Green)
         .addFields({ name: "User", value: `${user} \`${userId}\`` })
         .addFields({ name: "Command", value: `${interaction}` })
-        .addFields({ name: "server id", value: `\`${interaction.guild.id}\`` })
+        .addFields({
+          name: "server id",
+          value: `\`${interaction.guild?.id || "NuN"}\``,
+        })
         .setFooter({ text: server })
         .setTimestamp();
 

@@ -18,6 +18,7 @@ class Eval extends Command {
             .setName("code")
             .setDescription("The code you want to eval.")
             .setRequired(true)
+            .setAutocomplete(true)
         ),
       options: {
         devOnly: true,

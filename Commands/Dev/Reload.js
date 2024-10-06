@@ -1,5 +1,8 @@
 const Command = require("../../Structures/Classes/BaseCommand");
 const { CommandHandler } = require("../../Structures/Handlers/CommandHandler");
+const {
+  ComponentHandler,
+} = require("../../Structures/Handlers/ComponentHandler");
 const { EventHandler } = require("../../Structures/Handlers/EventHandler");
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const { Logger } = require("../../Structures/Functions/index");
@@ -15,6 +18,11 @@ class Reload extends Command {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addSubcommand((subCommand) =>
           subCommand.setName("events").setDescription("Reload all events.")
+        )
+        .addSubcommand((subCommand) =>
+          subCommand
+            .setName("component")
+            .setDescription("Reload all components.")
         )
         .addSubcommand((subCommand) =>
           subCommand
@@ -47,6 +55,18 @@ class Reload extends Command {
           await loadCommands(client, isDeploySlash);
           interaction.reply({
             content: `All commands has been reloaded. \nAnd deploy slash was \`${isDeploySlash}\``,
+            ephemeral: true,
+          });
+        } catch (error) {
+          logger.error(error);
+        }
+        break;
+      case "component":
+        try {
+          const { loadComponents } = new ComponentHandler();
+          await loadComponents(client);
+          interaction.reply({
+            content: `All components has been reloaded.`,
             ephemeral: true,
           });
         } catch (error) {

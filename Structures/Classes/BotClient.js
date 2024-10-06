@@ -10,6 +10,9 @@ class BotClient extends Client {
 
     this.config = Config;
     this.events = new Collection();
+    this.buttons = new Collection();
+    this.modals = new Collection();
+    this.autoComplete = new Collection();
     this.slashCommands = new Collection();
   }
   async start() {

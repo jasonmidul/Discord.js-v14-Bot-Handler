@@ -1,5 +1,8 @@
 const Event = require("../../Structures/Classes/BaseEvent");
 const { CommandHandler } = require("../../Structures/Handlers/CommandHandler");
+const {
+  ComponentHandler,
+} = require("../../Structures/Handlers/ComponentHandler");
 const { ConnectMongo } = require("../../Schemas/index.js");
 const { Events, ActivityType, PresenceUpdateStatus } = require("discord.js");
 const { Logger } = require("../../Structures/Functions/index");
@@ -30,9 +33,11 @@ class Ready extends Event {
     }, 5000);
 
     const { loadCommands } = new CommandHandler();
+    const { loadComponents } = new ComponentHandler();
 
     try {
       await loadCommands(client, client.config.deploySlashOnReady);
+      await loadComponents(client);
     } catch (error) {
       logger.error(error);
     }

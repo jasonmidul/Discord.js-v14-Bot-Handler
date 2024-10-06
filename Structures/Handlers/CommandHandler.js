@@ -9,7 +9,7 @@ const logger = new Logger();
 class CommandHandler {
   constructor() {}
 
-  async loadCommands(client, isCmdDeploy) {
+  async loadCommands(client, update) {
     const commandPath = fs.readdirSync(path.join(__dirname, "../../Commands"));
     const CommandsTable = new AsciiTable()
       .setHeading(
@@ -20,6 +20,7 @@ class CommandHandler {
       .setBorder("┋", "═", "●", "●")
       .setAlign(2, AsciiTable.CENTER);
 
+    await client.slashCommands.clear();
     let commandArray = [];
     let devCommandArray = [];
     let devCmdCount = 0;
@@ -27,9 +28,9 @@ class CommandHandler {
     let i = 1;
 
     commandPath.forEach((dir) => {
-      const commandFolder = fs.readdirSync(
-        path.join(__dirname, `../../Commands/${dir}`)
-      );
+      const commandFolder = fs
+        .readdirSync(path.join(__dirname, `../../Commands/${dir}`))
+        .filter((file) => file.endsWith(".js"));
 
       commandFolder.forEach(async (file) => {
         const commandFile = require(`../../Commands/${dir}/${file}`);
@@ -56,7 +57,7 @@ class CommandHandler {
     logger.info(`</> • ${cmdCount} Slash commands has been loaded.`);
     logger.info(`</> • ${devCmdCount} Developer commands has been loaded.`);
 
-    if (isCmdDeploy) {
+    if (update) {
       const rest = new REST({ version: "10" }).setToken(client.config.botToken);
       await (async () => {
         try {

@@ -19,4 +19,6 @@
 - Premium system
 - Eval slash command
 
+## ⭐Motivate me with a star if you like this repo⭐
+
 #### **Need Help with setup?** Join our [Discord Server](https://discord.gg/PZQT6c7gJn) and ask in the `#support` channel

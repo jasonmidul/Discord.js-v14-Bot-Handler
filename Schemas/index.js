@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const botDatas = require("./Bot/BotDatas");
 const premiumDatas = require("./Server/PremiumDatas");
-const redeemCodes = require("./Server/RedeemCode");
+const redeemCodes = require("./Bot/RedeemCode");
+const userPremiumDatas = require("./User/UserPremium");
 const { Logger } = require("../Structures/Functions/index");
 const logger = new Logger();
 
@@ -20,4 +21,10 @@ function ConnectMongo(client) {
   } else logger.warn(`You forget to add mongoUrl in config.js`);
 }
 
-module.exports = { ConnectMongo, botDatas, premiumDatas, redeemCodes };
+module.exports = {
+  ConnectMongo,
+  botDatas,
+  premiumDatas,
+  redeemCodes,
+  userPremiumDatas,
+};

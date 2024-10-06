@@ -1,7 +1,11 @@
 const Command = require("../../Structures/Classes/BaseCommand");
 const { CommandHandler } = require("../../Structures/Handlers/CommandHandler");
 const { EventHandler } = require("../../Structures/Handlers/EventHandler");
-const { premiumDatas, redeemCodes } = require("../../Schemas/index");
+const {
+  premiumDatas,
+  redeemCodes,
+  userPremiumDatas,
+} = require("../../Schemas/index");
 const { genCode } = require("../../Structures/Functions/index");
 const ms = require("ms");
 const {
@@ -9,6 +13,7 @@ const {
   EmbedBuilder,
   Colors,
   PermissionFlagsBits,
+  SlashCommandSubcommandGroupBuilder,
 } = require("discord.js");
 
 class Premium extends Command {
@@ -21,7 +26,7 @@ class Premium extends Command {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addSubcommand((subCommand) =>
           subCommand
-            .setName("add")
+            .setName("add-server")
             .setDescription("Add a premium server!")
             .addStringOption((option) =>
               option
@@ -47,7 +52,7 @@ class Premium extends Command {
         )
         .addSubcommand((subCommand) =>
           subCommand
-            .setName("remove")
+            .setName("remove-server")
             .setDescription("Remove a premium server!")
             .addStringOption((option) =>
               option
@@ -58,7 +63,7 @@ class Premium extends Command {
         )
         .addSubcommand((subCommand) =>
           subCommand
-            .setName("list")
+            .setName("list-server")
             .setDescription("See the list of premium servers")
             .addNumberOption((num) => {
               return num
@@ -69,7 +74,55 @@ class Premium extends Command {
         )
         .addSubcommand((subCommand) =>
           subCommand
-            .setName("code-gen")
+            .setName("add-user")
+            .setDescription("Add a premium user!")
+            .addStringOption((option) =>
+              option
+                .setName("user-id")
+                .setDescription("Which user you want to set as premium")
+                .setRequired(true)
+            )
+            .addStringOption((option) =>
+              option
+                .setName("duration")
+                .setDescription(
+                  "Set a duration. (example: 7days, 1month/default: 30days)"
+                )
+                .setRequired(true)
+                .addChoices(
+                  { name: "Weekly", value: "1 week" },
+                  { name: "Monthly", value: "30 day" },
+                  { name: "Half Yearly", value: "182.5 day" },
+                  { name: "Yearly", value: "365 day" },
+                  { name: "Life Time", value: "18250 day" }
+                )
+            )
+        )
+        .addSubcommand((subCommand) =>
+          subCommand
+            .setName("remove-user")
+            .setDescription("Remove a premium user!")
+            .addStringOption((option) =>
+              option
+                .setName("user-id")
+                .setDescription("Which user you want to remove from premium")
+                .setRequired(true)
+            )
+        )
+        .addSubcommand((subCommand) =>
+          subCommand
+            .setName("list-user")
+            .setDescription("See the list of premium users")
+            .addNumberOption((num) => {
+              return num
+                .setName("page")
+                .setRequired(false)
+                .setDescription("Select a page to view");
+            })
+        )
+        .addSubcommand((subCommand) =>
+          subCommand
+            .setName("generate")
             .setDescription("To generate a redeem codee!")
             .addStringOption((option) =>
               option
@@ -84,10 +137,20 @@ class Premium extends Command {
                   { name: "Life Time", value: "18250 day" }
                 )
             )
+            .addStringOption((option) =>
+              option
+                .setName("for")
+                .setDescription("The redeem code for server or user")
+                .setRequired(true)
+                .addChoices(
+                  { name: "Server", value: "guild" },
+                  { name: "User", value: "user" }
+                )
+            )
         )
         .addSubcommand((subCommand) =>
           subCommand
-            .setName("code-remove")
+            .setName("remove-code")
             .setDescription("Remove a premium code!")
             .addStringOption((option) =>
               option
@@ -98,7 +161,7 @@ class Premium extends Command {
         )
         .addSubcommand((subCommand) =>
           subCommand
-            .setName("code-list")
+            .setName("list-code")
             .setDescription("See the list of premium codes")
             .addNumberOption((num) => {
               return num
@@ -115,12 +178,23 @@ class Premium extends Command {
   async execute(interaction, client) {
     const subCmd = interaction.options.getSubcommand();
     const duration = interaction.options.getString("duration") || "30 days";
-    const guildId = interaction.options.getString("server-id");
+    const gId = interaction.options.getString("server-id");
+    const uId = interaction.options.getString("user-id");
     const rmvCode = interaction.options.getString("code");
+    const _for = interaction.options.getString("for");
 
     let guild;
-    if (guildId) {
-      guild = await client.guilds.cache.get(guildId);
+    let user;
+    if (uId) {
+      user = await client.users.fetch(uId);
+      if (!user)
+        return await interaction.reply({
+          content: "> I could not locate this user.",
+          ephemeral: true,
+        });
+    }
+    if (gId) {
+      guild = await client.guilds.cache.get(gId);
       if (!guild)
         return await interaction.reply({
           content: "> I could not locate this server.",
@@ -128,7 +202,7 @@ class Premium extends Command {
         });
     }
     switch (subCmd) {
-      case "add":
+      case "add-server":
         const add_premiumData = await premiumDatas.findOne({
           guildId: guild.id,
         });
@@ -145,20 +219,20 @@ class Premium extends Command {
           await interaction.reply({
             content: `> \`${guild.id}\`**(${
               guild.name
-            })** sucessfully added to premium till <t:${parseInt(
+            })** sucessfully added to premium server till <t:${parseInt(
               `${(Date.now() + ms(duration)) / 1000}`
             )}:R>.`,
             ephemeral: true,
           });
         } else {
           await interaction.reply({
-            content: `> \`${guild.id}\`**(${guild.name})**  already in premium.`,
+            content: `> \`${guild.id}\`**(${guild.name})**  already in premium server.`,
             ephemeral: true,
           });
         }
 
         break;
-      case "remove":
+      case "remove-server":
         const remove_premiumData = await premiumDatas.findOne({
           guildId: guild.id,
         });
@@ -168,7 +242,7 @@ class Premium extends Command {
             guildId: guild.id,
           });
           await interaction.reply({
-            content: `> \`${guild.id}\`**(${guild.name})** sucessfully removed from premium.`,
+            content: `> \`${guild.id}\`**(${guild.name})** sucessfully removed from premium server.`,
             ephemeral: true,
           });
         } else {
@@ -178,7 +252,7 @@ class Premium extends Command {
           });
         }
         break;
-      case "list":
+      case "list-server":
         const page = interaction.options.getNumber("page") || 1;
         const premiumData = await premiumDatas.find();
         const embed = new EmbedBuilder()
@@ -202,12 +276,94 @@ class Premium extends Command {
         for (const server of premiumData.splice(pageNum, 10)) {
           embed.addFields({
             name: `${server.guildName}`,
-            value: `> ${server.guildId}`,
+            value: `> ${server.guildId} expire <t:${parseInt(
+              `${(server.redeemAt + server.duration) / 1000}`
+            )}:R>`,
           });
         }
 
         return await interaction.reply({ embeds: [embed] });
-      case "code-gen":
+      case "add-user":
+        const userPremiumData = await userPremiumDatas.findOne({
+          userId: user.id,
+        });
+
+        if (!userPremiumData) {
+          await userPremiumDatas.create({
+            userId: user.id,
+            userName: user.username,
+            codeBy: interaction.user.id,
+            duration: ms(duration),
+            redeemAt: Date.now(),
+          });
+          await interaction.reply({
+            content: `> \`${user.id}\`**(${
+              user.username
+            })** sucessfully added to premium user till <t:${parseInt(
+              `${(Date.now() + ms(duration)) / 1000}`
+            )}:R>.`,
+            ephemeral: true,
+          });
+        } else {
+          await interaction.reply({
+            content: `> \`${user.id}\`**(${user.username})**  already in premium user.`,
+            ephemeral: true,
+          });
+        }
+
+        break;
+      case "remove-user":
+        const _userPremiumData = await userPremiumDatas.findOne({
+          userId: user.id,
+        });
+
+        if (_userPremiumData) {
+          await userPremiumDatas.findOneAndDelete({
+            userId: user.id,
+          });
+          await interaction.reply({
+            content: `> \`${user.id}\`**(${user.username})** sucessfully removed from premium user.`,
+            ephemeral: true,
+          });
+        } else {
+          await interaction.reply({
+            content: `> \`${user.id}\`**(${user.username})**  is no a premium user.`,
+            ephemeral: true,
+          });
+        }
+        break;
+      case "list-user":
+        const u_page = interaction.options.getNumber("page") || 1;
+        const u_premiumData = await userPremiumDatas.find();
+        const embed3 = new EmbedBuilder()
+          .setTitle("Premium user list")
+          .setColor(Colors.Green)
+          .setTimestamp();
+
+        const upageNum = 10 * u_page - 10;
+        if (u_premiumData.length < upageNum) {
+          return await interaction.reply({
+            content: `> Unable to find page no \`${u_page}\`.`,
+            ephemeral: true,
+          });
+        }
+        if (u_premiumData.length >= 11) {
+          embed.setFooter({
+            text: `page ${u_page} of ${Math.ceil(u_premiumData.length / 10)}`,
+          });
+        }
+
+        for (const user of u_premiumData.splice(upageNum, 10)) {
+          embed3.addFields({
+            name: `${user.userName}`,
+            value: `> ${user.userId} expire <t:${parseInt(
+              `${(user.redeemAt + user.duration) / 1000}`
+            )}:R>`,
+          });
+        }
+
+        return await interaction.reply({ embeds: [embed3] });
+      case "generate":
         const code = genCode();
         const redeemCode = await redeemCodes.findOne({
           code: code,
@@ -218,6 +374,7 @@ class Premium extends Command {
             code: code,
             duration: ms(duration),
             by: interaction.user.id,
+            for: _for,
           });
           await interaction.reply({
             content: `> Here is your code for <t:${parseInt(
@@ -237,7 +394,7 @@ class Premium extends Command {
         }
 
         break;
-      case "code-remove":
+      case "remove-code":
         const remove_codeData = await redeemCodes.findOne({
           code: rmvCode,
         });
@@ -257,7 +414,7 @@ class Premium extends Command {
           });
         }
         break;
-      case "code-list":
+      case "list-code":
         const _page = interaction.options.getNumber("page") || 1;
         const _redeemCode = await redeemCodes.find();
         const embed2 = new EmbedBuilder()

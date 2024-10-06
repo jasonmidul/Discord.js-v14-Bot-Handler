@@ -23,9 +23,9 @@ class EventHandler {
     let eventCount = 0;
 
     eventPath.forEach((dir) => {
-      const eventFolder = fs.readdirSync(
-        path.join(__dirname, `../../Events/${dir}`)
-      );
+      const eventFolder = fs
+        .readdirSync(path.join(__dirname, `../../Events/${dir}`))
+        .filter((file) => file.endsWith(".js"));
 
       eventFolder.forEach(async (file) => {
         const eventFile = require(`../../Events/${dir}/${file}`);
