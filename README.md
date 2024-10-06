@@ -25,4 +25,8 @@
 
 ## ⭐Motivate me with a star if you like this repo⭐
 
+```bash
+npm run start
+```
+
 #### **Need Help with setup?** Join our [Discord Server](https://discord.gg/PZQT6c7gJn) and ask in the `#support` channel
