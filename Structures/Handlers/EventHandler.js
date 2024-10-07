@@ -39,7 +39,10 @@ class EventHandler {
           "» 🌱 «"
         );
         const execute = (...args) => event.execute(...args, client);
-        client.events.set(event.name, execute);
+        client.events.set(file, {
+          execute: execute,
+          name: event.name,
+        });
 
         if (event.ONCE) {
           client.once(event.name, execute);

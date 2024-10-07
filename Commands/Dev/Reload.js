@@ -76,7 +76,7 @@ class Reload extends Command {
       case "events":
         try {
           for (const [key, value] of client.events)
-            client.removeListener(key, value);
+            client.removeListener(value.name, value.execute);
           const { loadEvents } = new EventHandler();
           await loadEvents(client);
           interaction.reply({
