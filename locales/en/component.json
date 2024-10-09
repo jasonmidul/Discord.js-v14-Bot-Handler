@@ -4,13 +4,13 @@
     },
     "modal": {
         "redeemModal": {
-            "validCode": "> Please enter a valid redeem code.",
-            "errUserCode": "> You can't redeem premium user code in server, try `/redeem` in my DM to redeem user premium code.",
-            "userPremiumExist": "> You can't redeem premium code, you are already in premium list.",
-            "userSuccess": "You are a premium user from today and it will expire <t:{{duration}}:R>",
-            "errGuildCode": "> You can't redeem premium server code in DM, try `/redeem` in server to redeem server premium code. (Administrator permission required)",
-            "guildPremiumExist": "> You can't redeem here, this server is already in premium list.",
-            "guildSuccess": "This server is a premium server from today and it will expire <t:{{duration}}:R>"
+            "validCode": "> Oops! Please enter a valid code to redeem.",
+            "errUserCode": "> It looks like you're trying to redeem a user premium code here. Please use `/redeem` in my DM to apply your premium code.",
+            "userPremiumExist": "> You're already on our premium list, no need to redeem again!",
+            "userSuccess": "Congrats! You're now a premium user starting today, and your access will expire <t:{{duration}}:R>.",
+            "errGuildCode": "> It seems you're trying to redeem a server premium code here. Please use `/redeem` in a server with Administrator permissions to apply it.",
+            "guildPremiumExist": "> This server is already enjoying premium status!",
+            "guildSuccess": "Success! This server is now a premium server, and the premium access will expire <t:{{duration}}:R>."
         }
     }
 }

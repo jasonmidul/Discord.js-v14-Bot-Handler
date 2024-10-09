@@ -22,11 +22,19 @@ class InteractionCreate extends Event {
 
     const command = client.slashCommands.get(interaction.commandName);
     if (!command) return;
-    let lng = "en";
-    const languageData = await languageDatas.findOne({
+    let languageData = await languageDatas.findOne({
       guildId: interaction.guildId,
     });
-    if (languageData) lng = languageData.lng;
+    if (!languageData) {
+      await languageDatas.create({
+        guildId: interaction.guildId,
+        lng: "en",
+      });
+      languageData = await languageDatas.findOne({
+        guildId: interaction.guildId,
+      });
+    }
+    const lng = languageData.lng;
 
     if (
       command.options?.devOnly &&

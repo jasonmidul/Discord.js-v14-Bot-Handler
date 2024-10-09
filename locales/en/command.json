@@ -1,17 +1,17 @@
 {
     "language": {
-        "success": "> <@{{user}}>, my language is now configured to {{data}}."
+        "success": "> Hey <@{{user}}>, I've successfully updated my language settings to {{data}}!"
     },
     "redeem": {
         "modal": {
-            "placeholder": "Enter your code here!",
-            "title": "Redeem a premium code"
+            "placeholder": "Enter your premium code here!",
+            "title": "Redeem Your Premium Access"
         }
     },
     "ping": {
-        "reply": "> Pong! Please wait...",
+        "reply": "> Pong! Hold on a moment while I check...",
         "embed": {
-            "description": "**{{client}}'s current ping:** `{{ping}}ms`\n\n> Discord's Gateway API ping: `{{apiPing}}ms`\n> Bot uptime: <t:{{uptime}}:R>"
+            "description": "**Here's my current response time:** `{{ping}}ms`\n\n> Discord's connection speed: `{{apiPing}}ms`\n> Bot's active time: <t:{{uptime}}:R>"
         }
     }
 }

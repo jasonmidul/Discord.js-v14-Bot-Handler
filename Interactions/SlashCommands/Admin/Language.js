@@ -21,7 +21,10 @@ class Language extends Command {
             .setName("lng")
             .setDescription("Select a language.")
             .setRequired(true)
-            .addChoices({ name: "English", value: "en" })
+            .addChoices([
+              { name: "English", value: "en" },
+              { name: "বাংলা", value: "bn" },
+            ])
         ),
     });
   }
@@ -31,19 +34,12 @@ class Language extends Command {
       guildId: interaction.guildId,
     });
 
-    if (!languageData) {
-      await languageDatas.create({
-        guildId: interaction.guildId,
-        lng: lng,
-      });
-    } else {
-      languageData.lng = lng;
-      languageData.save();
-    }
+    languageData.lng = lng;
+    languageData.save();
     interaction.reply({
       content: t("command:language.success", {
         lng: languageData.lng,
-        data: languageData.lng == "en" ? "English" : "English",
+        data: languageData.lng == "bn" ? "বাংলা" : "English",
         user: interaction.user.id,
       }),
     });
