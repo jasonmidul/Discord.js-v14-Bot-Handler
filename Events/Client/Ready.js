@@ -3,7 +3,8 @@ const { CommandHandler } = require("../../Structures/Handlers/CommandHandler");
 const {
   ComponentHandler,
 } = require("../../Structures/Handlers/ComponentHandler");
-const { ConnectMongo } = require("../../Schemas/index.js");
+const { loadLanguages } = require("../../Structures/Handlers/LanguageHandler");
+const { ConnectMongo } = require("../../Schemas/index");
 const { Events, ActivityType, PresenceUpdateStatus } = require("discord.js");
 const { Logger } = require("../../Structures/Functions/index");
 const logger = new Logger();
@@ -36,6 +37,7 @@ class Ready extends Event {
     const { loadComponents } = new ComponentHandler();
 
     try {
+      await loadLanguages();
       await loadCommands(client, client.config.deploySlashOnReady);
       await loadComponents(client);
     } catch (error) {

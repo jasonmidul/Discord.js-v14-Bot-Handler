@@ -2,8 +2,10 @@ const Event = require("../../Structures/Classes/BaseEvent");
 const { Events } = require("discord.js");
 const { Logger } = require("../../Structures/Functions/index");
 const logger = new Logger();
+const { languageDatas } = require("../../Schemas/index");
+const { t } = require("i18next");
 
-class ModalCreate extends Event {
+class ButtonCreate extends Event {
   constructor(client) {
     super(client, {
       name: Events.InteractionCreate,
@@ -12,22 +14,27 @@ class ModalCreate extends Event {
 
   async execute(interaction) {
     const { client } = this;
-    if (!interaction.isModalSubmit()) return;
-    const modal = client.modals.get(interaction.customId);
-    if (!modal) return;
+    if (!interaction.isButton()) return;
+    const button = client.buttons.get(interaction.customId);
+    if (!button) return;
+    let lng = "en";
+    const languageData = await languageDatas.findOne({
+      guildId: interaction.guildId,
+    });
+    if (languageData) lng = languageData.lng;
 
     try {
-      await modal.execute(interaction, client);
+      await button.execute(interaction, client, lng);
     } catch (error) {
       logger.error(error);
       if (interaction.replied) {
         await interaction.editReply({
-          content: "Catch an error while running this command.",
+          content: t("event.button.fail", { lng }),
           ephemeral: true,
         });
       } else {
         await interaction.reply({
-          content: "Catch an error while running this command.",
+          content: t("event.button.fail", { lng }),
           ephemeral: true,
         });
       }
@@ -35,4 +42,4 @@ class ModalCreate extends Event {
   }
 }
 
-module.exports = ModalCreate;
+module.exports = ButtonCreate;

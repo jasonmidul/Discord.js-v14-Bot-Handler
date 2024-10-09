@@ -1,4 +1,4 @@
-const Command = require("../../Structures/Classes/BaseCommand");
+const Command = require("../../../Structures/Classes/BaseCommand");
 const {
   SlashCommandBuilder,
   ActionRowBuilder,

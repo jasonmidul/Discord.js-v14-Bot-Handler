@@ -1,0 +1,17 @@
+{
+    "language": {
+        "success": "> <@{{user}}>, my language is now configured to {{data}}."
+    },
+    "redeem": {
+        "modal": {
+            "placeholder": "Enter your code here!",
+            "title": "Redeem a premium code"
+        }
+    },
+    "ping": {
+        "reply": "> Pong! Please wait...",
+        "embed": {
+            "description": "**{{client}}'s current ping:** `{{ping}}ms`\n\n> Discord's Gateway API ping: `{{apiPing}}ms`\n> Bot uptime: <t:{{uptime}}:R>"
+        }
+    }
+}

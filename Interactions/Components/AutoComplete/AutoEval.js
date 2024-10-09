@@ -1,4 +1,4 @@
-const Component = require("../../Structures/Classes/BaseComponent");
+const Component = require("../../../Structures/Classes/BaseComponent");
 class AutoEval extends Component {
   constructor(client) {
     super(client, {

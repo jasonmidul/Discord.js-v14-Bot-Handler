@@ -1,5 +1,6 @@
-const Command = require("../../Structures/Classes/BaseCommand");
+const Command = require("../../../Structures/Classes/BaseCommand");
 const { SlashCommandBuilder, EmbedBuilder, Colors } = require("discord.js");
+const { t } = require("i18next");
 
 class Ping extends Command {
   constructor(client) {
@@ -15,8 +16,8 @@ class Ping extends Command {
       },
     });
   }
-  async execute(interaction, client) {
-    await interaction.reply(`> Pong! Please wait...`);
+  async execute(interaction, client, lng) {
+    await interaction.reply(t("command:ping.reply", { lng }));
     const msg = await interaction.fetchReply();
     const ping = Math.floor(
       msg.createdTimestamp - interaction.createdTimestamp
@@ -26,13 +27,13 @@ class Ping extends Command {
         ping < 20 ? Colors.Green : ping < 40 ? Colors.Yellow : Colors.Red
       )
       .setDescription(
-        `**${
-          client.user.username
-        }'s current ping:** \`${ping}ms\`\n\n> Discord's Gateway API ping: \`${
-          client.ws.ping
-        }ms\`\n> Bot uptime: <t:${parseInt(
-          `${client.readyTimestamp / 1000}`
-        )}:R>`
+        t("command:ping.embed.description", {
+          lng,
+          client: client.user.username,
+          ping,
+          apiPing: client.ws.ping,
+          uptime: parseInt(`${client.readyTimestamp / 1000}`),
+        })
       );
     interaction.editReply({ embeds: [embed], content: "" });
   }

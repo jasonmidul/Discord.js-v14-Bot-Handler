@@ -1,0 +1,19 @@
+{
+    "event": {
+        "autocomplete": { 
+            "fail": "Catch an error while running this command." 
+        },
+         "button": {
+            "fail": "Catch an error while running this button."
+        },
+        "command": {
+            "fail": "> Catch an error while running this command.",
+            "devOnly": "> You can't use this command. Only {{client}}`s developer can use this command.",
+            "underDev": "> This bot is under development please try again later.",
+            "userPremium": "> You can't use this command only premium users can use this command.",
+            "userPremiumEnd": "> You can't use premium commands because, your premium session has expired <t:{{duration}}:R>.",
+            "guildPremium": "> You can use this command only in premium server.",
+            "guildPremiumEnd":  "> You can't use premium commands here because, server premium session has expired <t:{{duration}}:R>."
+        }
+    }
+}

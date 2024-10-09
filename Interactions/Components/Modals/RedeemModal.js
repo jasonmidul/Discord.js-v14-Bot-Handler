@@ -1,10 +1,11 @@
-const Component = require("../../Structures/Classes/BaseComponent");
+const Component = require("../../../Structures/Classes/BaseComponent");
 const {
   premiumDatas,
   redeemCodes,
   userPremiumDatas,
-} = require("../../Schemas/index");
+} = require("../../../Schemas/index");
 const { EmbedBuilder, Colors } = require("discord.js");
+const { t } = require("i18next");
 
 class Redeem extends Component {
   constructor(client) {
@@ -12,7 +13,7 @@ class Redeem extends Component {
       id: "redeem-modal",
     });
   }
-  async execute(interaction, client) {
+  async execute(interaction, client, lng) {
     const code = interaction.fields.getTextInputValue("code");
     const redeemCode = await redeemCodes.findOne({
       code: code,
@@ -20,14 +21,14 @@ class Redeem extends Component {
 
     if (!redeemCode) {
       return await interaction.reply({
-        content: `> Please enter a valid redeem code.`,
+        content: t("component:modal.redeemModal.validCode", { lng }),
         ephemeral: true,
       });
     }
     if (redeemCode.for == "user") {
       if (interaction.guildId !== null)
         return interaction.reply({
-          content: `> You can't redeem premium user code in server, try \`/redeem\` in my DM to redeem user premium code.`,
+          content: t("component:modal.redeemModal.errUserCode", { lng }),
           ephemeral: true,
         });
       const userPremiumData = await userPremiumDatas.findOne({
@@ -36,7 +37,7 @@ class Redeem extends Component {
 
       if (userPremiumData) {
         return await interaction.reply({
-          content: `> You can't redeem premium code, you are already in premium list.`,
+          content: t("component:modal.redeemModal.userPremiumExist", { lng }),
           ephemeral: true,
         });
       } else {
@@ -47,13 +48,12 @@ class Redeem extends Component {
           duration: redeemCode.duration,
           redeemAt: Date.now(),
         });
-        const embed = new EmbedBuilder()
-          .setColor(Colors.Purple)
-          .setDescription(
-            `You are a premium user from today and it will expire <t:${parseInt(
-              `${(Date.now() + redeemCode.duration) / 1000}`
-            )}:R>`
-          );
+        const embed = new EmbedBuilder().setColor(Colors.Purple).setDescription(
+          t("component:modal.redeemModal.userSuccess", {
+            lng,
+            duration: parseInt(`${(Date.now() + redeemCode.duration) / 1000}`),
+          })
+        );
         await interaction.reply({ embeds: [embed] });
         await redeemCodes.findOneAndDelete({
           code: code,
@@ -63,7 +63,7 @@ class Redeem extends Component {
     } else {
       if (interaction.guildId == null)
         return interaction.reply({
-          content: `> You can't redeem premium server code in DM, try \`/redeem\` in server to redeem server premium code. (Administrator permission required)`,
+          content: t("component:modal.redeemModal.errGuildCode", { lng }),
           ephemeral: true,
         });
       const premiumData = await premiumDatas.findOne({
@@ -72,7 +72,7 @@ class Redeem extends Component {
 
       if (premiumData) {
         return await interaction.reply({
-          content: `> You can't redeem here, this server is already in premium list.`,
+          content: t("component:modal.redeemModal.guildPremiumExist", { lng }),
           ephemeral: true,
         });
       } else {
@@ -84,17 +84,16 @@ class Redeem extends Component {
           duration: redeemCode.duration,
           redeemAt: Date.now(),
         });
-        const embed = new EmbedBuilder()
-          .setColor(Colors.Purple)
-          .setDescription(
-            `This server is a premium server from today and it will expire <t:${parseInt(
-              `${(Date.now() + redeemCode.duration) / 1000}`
-            )}:R>`
-          );
-        await interaction.reply({ embeds: [embed] });
+        const embed = new EmbedBuilder().setColor(Colors.Purple).setDescription(
+          t("component:modal.redeemModal.guildSuccess", {
+            lng,
+            duration: parseInt(`${(Date.now() + redeemCode.duration) / 1000}`),
+          })
+        );
         await redeemCodes.findOneAndDelete({
           code: code,
         });
+        await interaction.reply({ embeds: [embed] });
       }
     }
   }

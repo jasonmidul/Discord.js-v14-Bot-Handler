@@ -1,12 +1,14 @@
-const Command = require("../../Structures/Classes/BaseCommand");
-const { CommandHandler } = require("../../Structures/Handlers/CommandHandler");
-const { EventHandler } = require("../../Structures/Handlers/EventHandler");
+const Command = require("../../../Structures/Classes/BaseCommand");
+const {
+  CommandHandler,
+} = require("../../../Structures/Handlers/CommandHandler");
+const { EventHandler } = require("../../../Structures/Handlers/EventHandler");
 const {
   premiumDatas,
   redeemCodes,
   userPremiumDatas,
-} = require("../../Schemas/index");
-const { genCode } = require("../../Structures/Functions/index");
+} = require("../../../Schemas/index");
+const { genCode } = require("../../../Structures/Functions/index");
 const ms = require("ms");
 const {
   SlashCommandBuilder,

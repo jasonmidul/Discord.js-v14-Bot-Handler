@@ -1,11 +1,13 @@
-const Command = require("../../Structures/Classes/BaseCommand");
-const { CommandHandler } = require("../../Structures/Handlers/CommandHandler");
+const Command = require("../../../Structures/Classes/BaseCommand");
+const {
+  CommandHandler,
+} = require("../../../Structures/Handlers/CommandHandler");
 const {
   ComponentHandler,
-} = require("../../Structures/Handlers/ComponentHandler");
-const { EventHandler } = require("../../Structures/Handlers/EventHandler");
+} = require("../../../Structures/Handlers/ComponentHandler");
+const { EventHandler } = require("../../../Structures/Handlers/EventHandler");
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const { Logger } = require("../../Structures/Functions/index");
+const { Logger } = require("../../../Structures/Functions/index");
 const logger = new Logger();
 
 class Reload extends Command {

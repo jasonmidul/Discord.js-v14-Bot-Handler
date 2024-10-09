@@ -1,8 +1,13 @@
 const Event = require("../../Structures/Classes/BaseEvent");
 const { jsonFind, Logger } = require("../../Structures/Functions/index");
-const { premiumDatas, userPremiumDatas } = require("../../Schemas/index.js");
+const {
+  premiumDatas,
+  userPremiumDatas,
+  languageDatas,
+} = require("../../Schemas/index.js");
 const { Events, InteractionType } = require("discord.js");
 const logger = new Logger();
+const { t } = require("i18next");
 
 class InteractionCreate extends Event {
   constructor(client) {
@@ -17,13 +22,21 @@ class InteractionCreate extends Event {
 
     const command = client.slashCommands.get(interaction.commandName);
     if (!command) return;
+    let lng = "en";
+    const languageData = await languageDatas.findOne({
+      guildId: interaction.guildId,
+    });
+    if (languageData) lng = languageData.lng;
 
     if (
       command.options?.devOnly &&
       !jsonFind(interaction.user.id, client.config.developers)
     ) {
       return await interaction.reply({
-        content: `> You can not use this command. Only ${client.user.username}\`s developer can use this command.`,
+        content: t("event.command.devOnly", {
+          lng,
+          client: client.user.username,
+        }),
         ephemeral: true,
       });
     }
@@ -34,7 +47,7 @@ class InteractionCreate extends Event {
       !jsonFind(interaction.guild, client.config.betaTestGuilds)
     ) {
       return await interaction.reply({
-        content: "> This bot is under development please try again later",
+        content: t("event.command.underDev", { lng }),
         ephemeral: true,
       });
     }
@@ -44,16 +57,18 @@ class InteractionCreate extends Event {
       });
       if (!premiumData) {
         return interaction.reply({
-          content:
-            "> You can't use this command only premium users can use this command.",
+          content: t("event.command.userPremium", { lng }),
           ephemeral: true,
         });
       }
       if (premiumData.redeemAt + premiumData.duration >= Date.now()) {
         interaction.reply({
-          content: `> You can use premium command because, your premium session has expired <t:${parseInt(
-            `${(Date.now() + redeemCode.duration) / 1000}`
-          )}:R>.`,
+          content: t("event.command.userPremiumEnd", {
+            lng,
+            duration: parseInt(
+              `${(premiumData.redeemAt + premiumData.duration) / 1000}`
+            ),
+          }),
         });
         return await userPremiumDatas.findOneAndDelete({
           userId: interaction.user.id,
@@ -66,15 +81,18 @@ class InteractionCreate extends Event {
       });
       if (!premiumData) {
         return interaction.reply({
-          content: "> You can use this command only in premium server.",
+          content: t("event.command.guildPremium", { lng }),
           ephemeral: true,
         });
       }
       if (premiumData.redeemAt + premiumData.duration >= Date.now()) {
         interaction.reply({
-          content: `> You can use premium command because, this servers ptrmium session has expired <t:${parseInt(
-            `${(Date.now() + redeemCode.duration) / 1000}`
-          )}:R>.`,
+          content: t("event.command.guildPremiumEnd", {
+            lng,
+            duration: parseInt(
+              `${(premiumData.redeemAt + premiumData.duration) / 1000}`
+            ),
+          }),
         });
         return await premiumDatas.findOneAndDelete({
           guildId: interaction.guildId,
@@ -83,17 +101,17 @@ class InteractionCreate extends Event {
     }
 
     try {
-      await command.execute(interaction, client);
+      await command.execute(interaction, client, lng);
     } catch (error) {
       logger.error(error);
       if (interaction.replied) {
         await interaction.editReply({
-          content: "Catch an error while running this command.",
+          content: t("event.command.fail", { lng }),
           ephemeral: true,
         });
       } else {
         await interaction.reply({
-          content: "Catch an error while running this command.",
+          content: t("event.command.fail", { lng }),
           ephemeral: true,
         });
       }

@@ -1,4 +1,4 @@
-const Command = require("../../Structures/Classes/BaseCommand");
+const Command = require("../../../Structures/Classes/BaseCommand");
 const {
   SlashCommandBuilder,
   PermissionFlagsBits,
@@ -7,6 +7,7 @@ const {
   ActionRowBuilder,
   TextInputStyle,
 } = require("discord.js");
+const { t } = require("i18next");
 
 class Redeem extends Command {
   constructor(client) {
@@ -17,17 +18,17 @@ class Redeem extends Command {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     });
   }
-  async execute(interaction, client) {
+  async execute(interaction, client, lng) {
     const modal = new ModalBuilder()
       .setCustomId("redeem-modal")
-      .setTitle("Redeem a premium code");
+      .setTitle(t("command:redeem.modal.title", { lng }));
 
     const codeResiver = new TextInputBuilder()
       .setCustomId("code")
       .setLabel("code")
       .setStyle(TextInputStyle.Short)
       .setMaxLength(8)
-      .setPlaceholder("Enter your code here!")
+      .setPlaceholder(t("command:redeem.modal.placeholder", { lng }))
       .setRequired(true);
     const actionRow = new ActionRowBuilder().addComponents(codeResiver);
     modal.addComponents(actionRow);

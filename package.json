@@ -1,6 +1,6 @@
 {
   "name": "v14-bot-handler",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
@@ -16,6 +16,7 @@
     "discord-hybrid-sharding": "^2.2.0",
     "discord.js": "^14.16.2",
     "dotenv": "^16.4.5",
+    "i18next": "^23.15.2",
     "mongoose": "^8.7.0"
   },
   "devDependencies": {

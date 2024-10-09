@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const botDatas = require("./Bot/BotDatas");
 const premiumDatas = require("./Server/PremiumDatas");
+const languageDatas = require("./Server/LanguageData");
 const redeemCodes = require("./Bot/RedeemCode");
 const userPremiumDatas = require("./User/UserPremium");
 const { Logger } = require("../Structures/Functions/index");
@@ -27,4 +28,5 @@ module.exports = {
   premiumDatas,
   redeemCodes,
   userPremiumDatas,
+  languageDatas,
 };

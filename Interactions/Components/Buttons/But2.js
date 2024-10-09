@@ -1,4 +1,4 @@
-const Component = require("../../Structures/Classes/BaseComponent");
+const Component = require("../../../Structures/Classes/BaseComponent");
 class But2 extends Component {
   constructor(client) {
     super(client, {

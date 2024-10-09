@@ -10,7 +10,9 @@ class CommandHandler {
   constructor() {}
 
   async loadCommands(client, update) {
-    const commandPath = fs.readdirSync(path.join(__dirname, "../../Commands"));
+    const commandPath = fs.readdirSync(
+      path.join(__dirname, "../../Interactions/SlashCommands")
+    );
     const CommandsTable = new AsciiTable()
       .setHeading(
         "⠀⠀⠀⠀",
@@ -29,11 +31,13 @@ class CommandHandler {
 
     commandPath.forEach((dir) => {
       const commandFolder = fs
-        .readdirSync(path.join(__dirname, `../../Commands/${dir}`))
+        .readdirSync(
+          path.join(__dirname, `../../Interactions/SlashCommands/${dir}`)
+        )
         .filter((file) => file.endsWith(".js"));
 
       commandFolder.forEach(async (file) => {
-        const commandFile = require(`../../Commands/${dir}/${file}`);
+        const commandFile = require(`../../Interactions/SlashCommands/${dir}/${file}`);
         const command = new commandFile(client);
 
         if (dir == "Dev") {

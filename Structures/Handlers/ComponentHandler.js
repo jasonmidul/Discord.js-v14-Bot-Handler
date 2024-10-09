@@ -8,7 +8,7 @@ class ComponentHandler {
 
   async loadComponents(client, update) {
     const componentPath = fs.readdirSync(
-      path.join(__dirname, "../../Components")
+      path.join(__dirname, "../../Interactions/Components")
     );
 
     await client.buttons.clear();
@@ -20,11 +20,13 @@ class ComponentHandler {
 
     componentPath.forEach((dir) => {
       const componentFolder = fs
-        .readdirSync(path.join(__dirname, `../../Components/${dir}`))
+        .readdirSync(
+          path.join(__dirname, `../../Interactions/Components/${dir}`)
+        )
         .filter((file) => file.endsWith(".js"));
 
       componentFolder.forEach(async (file) => {
-        const componentFile = require(`../../Components/${dir}/${file}`);
+        const componentFile = require(`../../Interactions/Components/${dir}/${file}`);
         const component = new componentFile(client);
         switch (dir) {
           case "Buttons":
