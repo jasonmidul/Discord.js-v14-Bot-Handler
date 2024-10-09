@@ -13,6 +13,7 @@
 ## Features
 
 - Developed using Discord.js v14
+- Multi-language feture with database
 - Coustom client
 - Event handler
 - Button handler
