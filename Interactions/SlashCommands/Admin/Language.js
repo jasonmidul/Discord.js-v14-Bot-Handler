@@ -18,18 +18,19 @@ class Language extends Command {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption((option) =>
           option
-            .setName("lng")
+            .setName("language")
             .setDescription("Select a language.")
             .setRequired(true)
             .addChoices([
               { name: "English", value: "en" },
               { name: "বাংলা", value: "bn" },
+              { name: "Português", value: "pt" },
             ])
         ),
     });
   }
   async execute(interaction) {
-    const lng = interaction.options.getString("lng");
+    const lng = interaction.options.getString("language");
     const languageData = await languageDatas.findOne({
       guildId: interaction.guildId,
     });
@@ -38,8 +39,8 @@ class Language extends Command {
     languageData.save();
     interaction.reply({
       content: t("command:language.success", {
-        lng: languageData.lng,
-        data: languageData.lng == "bn" ? "বাংলা" : "English",
+        lng: lng,
+        data: lng == "en" ? "English" : lng == "bn" ? "বাংলা" : "Português",
         user: interaction.user.id,
       }),
     });

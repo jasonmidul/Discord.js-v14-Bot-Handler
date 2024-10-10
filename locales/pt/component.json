@@ -1,0 +1,14 @@
+{
+    "button": {},
+    "modal": {
+        "redeemModal": {
+            "validCode": "> Ops! Por favor, insira um código válido para resgatar.",
+            "errUserCode": "> Parece que você está tentando resgatar um código premium de usuário aqui. Por favor, use `/redeem` na minha DM para aplicar seu código premium.",
+            "userPremiumExist": "> Você já está na nossa lista premium, não há necessidade de resgatar novamente!",
+            "userSuccess": "Parabéns! Você agora é um usuário premium a partir de hoje, e seu acesso expirará <t:{{duration}}:R>.",
+            "errGuildCode": "> Parece que você está tentando resgatar um código premium de servidor aqui. Por favor, use `/redeem` em um servidor com permissões de Administrador para aplicá-lo.",
+            "guildPremiumExist": "> Este servidor já está desfrutando do status premium!",
+            "guildSuccess": "Sucesso! Este servidor agora é um servidor premium, e o acesso premium expirará <t:{{duration}}:R>."
+        }
+    }
+}
