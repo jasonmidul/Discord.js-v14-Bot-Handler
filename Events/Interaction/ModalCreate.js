@@ -17,11 +17,19 @@ class ModalCreate extends Event {
     if (!interaction.isModalSubmit()) return;
     const modal = client.modals.get(interaction.customId);
     if (!modal) return;
-    let lng = "en";
     const languageData = await languageDatas.findOne({
       guildId: interaction.guildId,
     });
-    if (languageData) lng = languageData.lng;
+    if (!languageData && interaction.guildId !== null) {
+      await languageDatas.create({
+        guildId: interaction.guildId,
+        lng: "en",
+      });
+      languageData = await languageDatas.findOne({
+        guildId: interaction.guildId,
+      });
+    }
+    const lng = interaction.guildId == null ? "en" : languageData.lng;
 
     try {
       await modal.execute(interaction, client, lng);

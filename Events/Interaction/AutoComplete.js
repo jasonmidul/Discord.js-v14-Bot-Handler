@@ -17,11 +17,19 @@ class AutoComplete extends Event {
     if (!interaction.isAutocomplete()) return;
     const autoComplete = client.autoComplete.get(interaction.commandName);
     if (!autoComplete) return;
-    let lng = "en";
     const languageData = await languageDatas.findOne({
       guildId: interaction.guildId,
     });
-    if (languageData) lng = languageData.lng;
+    if (!languageData && interaction.guildId !== null) {
+      await languageDatas.create({
+        guildId: interaction.guildId,
+        lng: "en",
+      });
+      languageData = await languageDatas.findOne({
+        guildId: interaction.guildId,
+      });
+    }
+    const lng = interaction.guildId == null ? "en" : languageData.lng;
 
     try {
       await autoComplete.execute(interaction, client, lng);

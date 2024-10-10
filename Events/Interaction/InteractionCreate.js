@@ -25,7 +25,7 @@ class InteractionCreate extends Event {
     let languageData = await languageDatas.findOne({
       guildId: interaction.guildId,
     });
-    if (!languageData) {
+    if (!languageData && interaction.guildId !== null) {
       await languageDatas.create({
         guildId: interaction.guildId,
         lng: "en",
@@ -34,7 +34,7 @@ class InteractionCreate extends Event {
         guildId: interaction.guildId,
       });
     }
-    const lng = languageData.lng;
+    const lng = interaction.guildId == null ? "en" : languageData.lng;
 
     if (
       command.options?.devOnly &&

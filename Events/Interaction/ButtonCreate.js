@@ -17,11 +17,19 @@ class ButtonCreate extends Event {
     if (!interaction.isButton()) return;
     const button = client.buttons.get(interaction.customId);
     if (!button) return;
-    let lng = "en";
     const languageData = await languageDatas.findOne({
       guildId: interaction.guildId,
     });
-    if (languageData) lng = languageData.lng;
+    if (!languageData && interaction.guildId !== null) {
+      await languageDatas.create({
+        guildId: interaction.guildId,
+        lng: "en",
+      });
+      languageData = await languageDatas.findOne({
+        guildId: interaction.guildId,
+      });
+    }
+    const lng = interaction.guildId == null ? "en" : languageData.lng;
 
     try {
       await button.execute(interaction, client, lng);
