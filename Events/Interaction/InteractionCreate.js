@@ -69,7 +69,7 @@ class InteractionCreate extends Event {
           ephemeral: true,
         });
       }
-      if (premiumData.redeemAt + premiumData.duration >= Date.now()) {
+      if (premiumData.redeemAt + premiumData.duration <= Date.now()) {
         interaction.reply({
           content: t("event.command.userPremiumEnd", {
             lng,
@@ -93,7 +93,7 @@ class InteractionCreate extends Event {
           ephemeral: true,
         });
       }
-      if (premiumData.redeemAt + premiumData.duration >= Date.now()) {
+      if (premiumData.redeemAt + premiumData.duration <= Date.now()) {
         interaction.reply({
           content: t("event.command.guildPremiumEnd", {
             lng,
