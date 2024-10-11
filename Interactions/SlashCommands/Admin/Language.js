@@ -24,7 +24,7 @@ class Language extends Command {
             .addChoices([
               { name: "English", value: "en" },
               { name: "বাংলা", value: "bn" },
-              { name: "Português", value: "pt" },
+              { name: "Brazilian Português", value: "pt-br" },
             ])
         ),
     });
@@ -40,7 +40,12 @@ class Language extends Command {
     interaction.reply({
       content: t("command:language.success", {
         lng: lng,
-        data: lng == "en" ? "English" : lng == "bn" ? "বাংলা" : "Português",
+        data:
+          lng == "en"
+            ? "English"
+            : lng == "bn"
+            ? "বাংলা"
+            : "Brazilian Português",
         user: interaction.user.id,
       }),
     });

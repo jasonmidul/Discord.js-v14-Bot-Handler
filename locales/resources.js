@@ -4,9 +4,9 @@ const system_en = require("./en/system.json");
 const command_bn = require("./bn/command.json");
 const component_bn = require("./bn/component.json");
 const system_bn = require("./bn/system.json");
-const command_pt = require("./pt/command.json");
-const component_pt = require("./pt/component.json");
-const system_pt = require("./pt/system.json");
+const command_pt_br = require("./pt-br/command.json");
+const component_pt_br = require("./pt-br/component.json");
+const system_pt_br = require("./pt-br/system.json");
 
 const resources = {
   en: {
@@ -19,10 +19,10 @@ const resources = {
     command: command_bn,
     component: component_bn,
   },
-  pt: {
-    system: system_pt,
-    command: command_pt,
-    component: component_pt,
+  pt_br: {
+    system: system_pt_br,
+    command: command_pt_br,
+    component: component_pt_br,
   },
 };
 
