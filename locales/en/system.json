@@ -6,6 +6,9 @@
         "button": {
             "fail": "> Oops! We encountered an error while processing this button. Please try again."
         },
+        "modal": {
+            "fail": "> Oops! We encountered an error while processing this button. Please try again."
+        },
         "command": {
             "fail": "> Oops! There was an error executing this command. Please try again later.",
             "devOnly": "> Sorry! This command is reserved for the developer of {{client}}. Please contact them for assistance.",
