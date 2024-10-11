@@ -25,6 +25,7 @@ class Language extends Command {
               { name: "English", value: "en" },
               { name: "বাংলা", value: "bn" },
               { name: "Brazilian Português", value: "pt-br" },
+              { name: "français", value: "fr" },
             ])
         ),
     });
@@ -45,6 +46,8 @@ class Language extends Command {
             ? "English"
             : lng == "bn"
             ? "বাংলা"
+            : lng == "fr"
+            ? "français"
             : "Brazilian Português",
         user: interaction.user.id,
       }),

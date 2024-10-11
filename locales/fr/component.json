@@ -1,0 +1,16 @@
+{
+    "button": {
+
+    },
+    "modal": {
+        "redeemModal": {
+            "validCode": "> Oups! Veuillez entrer un code valide pour l'utiliser.",
+            "errUserCode": "> On dirait que vous essayez d'utiliser un code premium utilisateur ici. Veuillez utiliser `/redeem` dans mes messages privés pour appliquer votre code premium.",
+            "userPremiumExist": "> Vous êtes déjà sur notre liste premium, pas besoin de réutiliser un code !",
+            "userSuccess": "Félicitations ! Vous êtes maintenant un utilisateur premium à partir d'aujourd'hui, et votre accès expirera <t:{{duration}}:R>.",
+            "errGuildCode": "> Il semble que vous essayez d'utiliser un code premium pour serveur ici. Veuillez utiliser `/redeem` dans un serveur avec des permissions d'Administrateur pour l'appliquer.",
+            "guildPremiumExist": "> Ce serveur profite déjà du statut premium !",
+            "guildSuccess": "Succès ! Ce serveur est maintenant un serveur premium, et l'accès premium expirera <t:{{duration}}:R>."
+        }
+    }
+}

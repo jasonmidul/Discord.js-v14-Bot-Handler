@@ -1,0 +1,19 @@
+{
+    "event": {
+        "autocomplete": { 
+            "fail": "> Oups ! Quelque chose s'est mal passé lors de l'exécution de cette commande. Veuillez réessayer." 
+        },
+        "button": {
+            "fail": "> Oups ! Nous avons rencontré une erreur lors du traitement de ce bouton. Veuillez réessayer."
+        },
+        "command": {
+            "fail": "> Oups ! Une erreur est survenue lors de l'exécution de cette commande. Veuillez réessayer plus tard.",
+            "devOnly": "> Désolé ! Cette commande est réservée au développeur de {{client}}. Veuillez le contacter pour obtenir de l'aide.",
+            "underDev": "> Attention ! Ce bot est actuellement en cours de développement. Veuillez revenir plus tard.",
+            "userPremium": "> Désolé ! Cette commande est uniquement disponible pour les utilisateurs premium. Pensez à améliorer votre accès.",
+            "userPremiumEnd": "> Votre accès premium a expiré <t:{{duration}}:R>. Veuillez renouveler votre abonnement pour utiliser les commandes premium.",
+            "guildPremium": "> Désolé ! Cette commande ne peut être utilisée que dans un serveur premium. Veuillez vérifier le statut de votre serveur.",
+            "guildPremiumEnd": "> L'accès premium de ce serveur a expiré <t:{{duration}}:R>. Veuillez renouveler le statut premium du serveur pour utiliser les commandes premium."
+        }
+    }
+}
