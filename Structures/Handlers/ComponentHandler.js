@@ -6,7 +6,7 @@ const logger = new Logger();
 class ComponentHandler {
   constructor() {}
 
-  async loadComponents(client, update) {
+  async loadComponents(client) {
     const componentPath = fs.readdirSync(
       path.join(__dirname, "../../Interactions/Components")
     );
