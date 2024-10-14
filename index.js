@@ -8,6 +8,7 @@ const manager = new ClusterManager("./bot.js", {
   mode: "process",
 });
 
+console.clear();
 manager.on("clusterCreate", (cluster) =>
   console.log(`Cluster launched : ${cluster.id}`)
 );

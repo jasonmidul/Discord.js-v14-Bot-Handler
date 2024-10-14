@@ -51,7 +51,9 @@ class InteractionLog extends Event {
         .setFooter({ text: server })
         .setTimestamp();
 
-      await channel.send({ embeds: [embed] });
+      if (channel) {
+        return channel.send({ embeds: [embed] });
+      }
     }
   }
 }

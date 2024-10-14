@@ -1,9 +1,12 @@
 const { EmbedBuilder, WebhookClient, Colors } = require("discord.js");
 const { inspect } = require("util");
 const config = require("../../config");
-const webhook = new WebhookClient({
-  url: config.logWebhook,
-});
+const webhook =
+  config.logWebhook.length > 0
+    ? new WebhookClient({
+        url: config.logWebhook,
+      })
+    : undefined;
 
 class Logger {
   constructor() {
@@ -50,9 +53,11 @@ class Logger {
       " ".repeat(20 - (this.origin.length > 20 ? 20 : this.origin.length)) +
       "| " +
       content;
-    webhook.send({
-      content: `> \`\`\`${output}\`\`\``,
-    });
+    if (webhook) {
+      webhook.send({
+        content: `> \`\`\`${output}\`\`\``,
+      });
+    }
     console.log(output);
   }
 
@@ -69,9 +74,11 @@ class Logger {
       " ".repeat(20 - (this.origin.length > 20 ? 20 : this.origin.length)) +
       "| " +
       content;
-    webhook.send({
-      content: `> \`\`\`${output}\`\`\``,
-    });
+    if (webhook) {
+      webhook.send({
+        content: `> \`\`\`${output}\`\`\``,
+      });
+    }
     console.log(output);
   }
   warn(content) {
@@ -87,9 +94,11 @@ class Logger {
       " ".repeat(20 - (this.origin.length > 20 ? 20 : this.origin.length)) +
       "| " +
       content;
-    webhook.send({
-      content: `> \`\`\`${output}\`\`\``,
-    });
+    if (webhook) {
+      webhook.send({
+        content: `> \`\`\`${output}\`\`\``,
+      });
+    }
     console.log(output);
   }
 
@@ -106,9 +115,11 @@ class Logger {
       " ".repeat(20 - (this.origin.length > 20 ? 20 : this.origin.length)) +
       "| " +
       content;
-    webhook.send({
-      content: `> \`\`\`${output}\`\`\``,
-    });
+    if (webhook) {
+      webhook.send({
+        content: `> \`\`\`${output}\`\`\``,
+      });
+    }
     console.log(output);
   }
   custom(content) {
