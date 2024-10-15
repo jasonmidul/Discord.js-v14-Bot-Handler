@@ -1,14 +1,16 @@
 const fs = require("fs");
 const path = require("path");
 const AsciiTable = require("ascii-table");
-const { REST } = require("@discordjs/rest");
-const { Routes } = require("discord.js");
 const { Logger } = require("../Functions/index");
 const logger = new Logger();
 
 class CommandHandler {
   constructor() {}
 
+  /** A function to load commands
+   * @param {import("../Classes/BotClient").BotClient} client
+   * @param {boolean} update
+   */
   async loadCommands(client, update) {
     const commandPath = fs.readdirSync(
       path.join(__dirname, "../../Interactions/SlashCommands")
@@ -62,25 +64,21 @@ class CommandHandler {
     logger.info(`</> • ${devCmdCount} Developer commands has been loaded.`);
 
     if (update) {
-      const rest = new REST({ version: "10" }).setToken(client.config.botToken);
       await (async () => {
         try {
-          await rest.put(Routes.applicationCommands(client.config.clientId), {
-            body: commandArray,
-          });
+          await client.application.commands.set(commandArray);
           logger.success(
             `</> • ${cmdCount} Slash commands has been registered globally.`
           );
-          client.config.devGuilds.forEach(async (guild) => {
-            await rest.put(
-              Routes.applicationGuildCommands(client.config.clientId, guild.id),
-              {
-                body: devCommandArray,
-              }
-            );
-            logger.warn(
-              `</> • Dev Commands registered for guild "${guild.name}"`
-            );
+          client.config.devGuilds.forEach(async (devGuild) => {
+            const guild = client.guilds.cache.get(devGuild.id);
+
+            if (guild) {
+              guild.commands.set(devCommandArray);
+              logger.warn(
+                `</> • Dev Commands registered for guild "${devGuild.name}"`
+              );
+            }
           });
         } catch (error) {
           logger.error(error);
