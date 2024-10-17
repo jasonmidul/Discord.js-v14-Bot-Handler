@@ -6,7 +6,7 @@ const {
 } = require("./Structures/Handlers/ErrorHandler");
 const { ClusterClient, getInfo } = require("discord-hybrid-sharding");
 
-const clientOptions = {
+const client = new BotClient({
   allowedMentions: {
     parse: ["users", "roles", "everyone"],
     repliedUser: false,
@@ -19,9 +19,7 @@ const clientOptions = {
   partials: [Partials.Channel, Partials.User, Partials.GuildMember],
   shards: ClusterClient.getInfo().SHARD_LIST,
   shardCount: ClusterClient.getInfo().TOTAL_SHARDS,
-};
-
-const client = new BotClient(clientOptions);
+});
 client.cluster = new ClusterClient(client);
 
 ErrorHandler();
