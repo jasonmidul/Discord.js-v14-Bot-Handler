@@ -1,19 +1,25 @@
 const { Client, Collection } = require("discord.js");
 const { EventHandler } = require("../Handlers/EventHandler");
 const { Logger } = require("../Functions/index");
-const Config = require("../../config");
-const logger = new Logger();
 
 class BotClient extends Client {
+  /**
+   * types defination for discord.js ClientOptions
+   * @param {import("discord.js").ClientOptions} options
+   */
   constructor(options) {
     super(options);
 
-    this.config = Config;
+    // stored data
+    this.config = require("../../config");
     this.events = new Collection();
     this.buttons = new Collection();
     this.modals = new Collection();
     this.autoComplete = new Collection();
     this.slashCommands = new Collection();
+
+    //methods
+    this.logger = new Logger();
   }
   async start() {
     await this.registerModules();
@@ -25,7 +31,7 @@ class BotClient extends Client {
     try {
       await loadEvents(this);
     } catch (error) {
-      logger.error(error);
+      this.logger.error(error);
     }
   }
 }
