@@ -11,7 +11,10 @@ class ButtonCreate extends Event {
       name: Events.InteractionCreate,
     });
   }
-
+  /**
+   *
+   * @param {import("discord.js").ButtonInteraction} interaction
+   */
   async execute(interaction) {
     const { client } = this;
     if (!interaction.isButton()) return;

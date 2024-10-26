@@ -5,7 +5,11 @@ class But1 extends Component {
       id: "but1",
     });
   }
-  async execute(interaction, client) {
+  /**
+   *
+   * @param {import("discord.js").ButtonInteraction} interaction
+   */
+  async execute(interaction) {
     await interaction.reply({ content: "Reply of But1." });
   }
 }

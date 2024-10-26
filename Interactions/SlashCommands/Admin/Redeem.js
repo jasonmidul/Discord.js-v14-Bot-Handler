@@ -18,6 +18,12 @@ class Redeem extends Command {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     });
   }
+  /**
+   *
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
+   * @param {import("../../../Structures/Classes/BotClient").BotClient} client
+   * @param {string} lng
+   */
   async execute(interaction, client, lng) {
     const modal = new ModalBuilder()
       .setCustomId("redeem-modal")

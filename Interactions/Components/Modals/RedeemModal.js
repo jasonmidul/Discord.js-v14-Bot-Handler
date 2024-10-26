@@ -1,9 +1,4 @@
 const Component = require("../../../Structures/Classes/BaseComponent");
-const {
-  premiumDatas,
-  redeemCodes,
-  userPremiumDatas,
-} = require("../../../Schemas/index");
 const { EmbedBuilder, Colors } = require("discord.js");
 const { t } = require("i18next");
 
@@ -13,9 +8,15 @@ class Redeem extends Component {
       id: "redeem-modal",
     });
   }
+  /**
+   *
+   * @param {import("discord.js").ModalSubmitInteraction} interaction
+   * @param {import("../../../Structures/Classes/BotClient").BotClient} client
+   * @param {string} lng
+   */
   async execute(interaction, client, lng) {
     const code = interaction.fields.getTextInputValue("code");
-    const redeemCode = await redeemCodes.findOne({
+    const redeemCode = await client.db.redeemCodes.findOne({
       code: code,
     });
 
@@ -31,7 +32,7 @@ class Redeem extends Component {
           content: t("component:modal.redeemModal.errUserCode", { lng }),
           ephemeral: true,
         });
-      const userPremiumData = await userPremiumDatas.findOne({
+      const userPremiumData = await client.db.userPremiumDatas.findOne({
         userId: interaction.user.id,
       });
 
@@ -41,7 +42,7 @@ class Redeem extends Component {
           ephemeral: true,
         });
       } else {
-        await userPremiumDatas.create({
+        await client.db.userPremiumDatas.create({
           userId: interaction.user.id,
           userName: interaction.user.username,
           codeBy: redeemCode.by,
@@ -55,7 +56,7 @@ class Redeem extends Component {
           })
         );
         await interaction.reply({ embeds: [embed] });
-        await redeemCodes.findOneAndDelete({
+        await client.db.redeemCodes.findOneAndDelete({
           code: code,
         });
       }
@@ -66,7 +67,7 @@ class Redeem extends Component {
           content: t("component:modal.redeemModal.errGuildCode", { lng }),
           ephemeral: true,
         });
-      const premiumData = await premiumDatas.findOne({
+      const premiumData = await client.db.premiumDatas.findOne({
         guildId: interaction.guildId,
       });
 
@@ -76,7 +77,7 @@ class Redeem extends Component {
           ephemeral: true,
         });
       } else {
-        await premiumDatas.create({
+        await client.db.premiumDatas.create({
           guildId: interaction.guildId,
           guildName: interaction.guild.name,
           by: interaction.user.id,
@@ -90,7 +91,7 @@ class Redeem extends Component {
             duration: parseInt(`${(Date.now() + redeemCode.duration) / 1000}`),
           })
         );
-        await redeemCodes.findOneAndDelete({
+        await client.db.redeemCodes.findOneAndDelete({
           code: code,
         });
         await interaction.reply({ embeds: [embed] });

@@ -5,12 +5,14 @@ const logger = new Logger();
 
 class ComponentHandler {
   constructor() {}
-
+  /**
+   *  A function to load components
+   * @param {import("../Classes/BotClient").BotClient} client
+   */
   async loadComponents(client) {
     const componentPath = fs.readdirSync(
       path.join(__dirname, "../../Interactions/Components")
     );
-
     await client.buttons.clear();
     await client.modals.clear();
     await client.autoComplete.clear();

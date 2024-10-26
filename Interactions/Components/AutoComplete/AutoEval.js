@@ -5,7 +5,11 @@ class AutoEval extends Component {
       id: "eval",
     });
   }
-  async execute(interaction, client) {
+  /**
+   *
+   * @param {import("discord.js").AutocompleteInteraction} interaction
+   */
+  async execute(interaction) {
     const focusedValue = interaction.options.getFocused();
     const choices = [
       { name: "client", value: "client" },

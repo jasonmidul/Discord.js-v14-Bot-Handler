@@ -6,8 +6,11 @@ const logger = new Logger();
 
 class EventHandler {
   constructor() {}
-
-  async loadEvents(client, gg) {
+  /**
+   * Event handler function
+   * @param {import("../Classes/BotClient").BotClient} client
+   */
+  async loadEvents(client) {
     const EventsTable = new AsciiTable()
       .setHeading(
         "⠀⠀⠀⠀",

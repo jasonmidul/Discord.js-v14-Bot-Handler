@@ -1,4 +1,4 @@
-const { EmbedBuilder, WebhookClient, Colors } = require("discord.js");
+const { WebhookClient } = require("discord.js");
 const { inspect } = require("util");
 const config = require("../../config");
 const webhook =

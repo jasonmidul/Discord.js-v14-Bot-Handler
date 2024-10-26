@@ -12,6 +12,10 @@ class ModalCreate extends Event {
     });
   }
 
+  /**
+   *
+   * @param {import("discord.js").ModalSubmitInteraction} interaction
+   */
   async execute(interaction) {
     const { client } = this;
     if (!interaction.isModalSubmit()) return;

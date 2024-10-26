@@ -1,11 +1,5 @@
 const Command = require("../../../Structures/Classes/BaseCommand");
-const {
-  SlashCommandBuilder,
-  PermissionFlagsBits,
-  EmbedBuilder,
-  Colors,
-} = require("discord.js");
-const { languageDatas } = require("../../../Schemas/index");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const { t } = require("i18next");
 
 class Language extends Command {
@@ -30,14 +24,20 @@ class Language extends Command {
         ),
     });
   }
-  async execute(interaction) {
+  /**
+   *
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
+   * @param {import("../../../Structures/Classes/BotClient").BotClient} client
+   */
+  async execute(interaction, client) {
     const lng = interaction.options.getString("language");
-    const languageData = await languageDatas.findOne({
-      guildId: interaction.guildId,
-    });
+    await client.db.languageDatas.findOneAndUpdate(
+      {
+        guildId: interaction.guildId,
+      },
+      { lng: lng }
+    );
 
-    languageData.lng = lng;
-    languageData.save();
     interaction.reply({
       content: t("command:language.success", {
         lng: lng,

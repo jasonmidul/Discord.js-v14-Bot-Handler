@@ -1,13 +1,4 @@
 const Command = require("../../../Structures/Classes/BaseCommand");
-const {
-  CommandHandler,
-} = require("../../../Structures/Handlers/CommandHandler");
-const { EventHandler } = require("../../../Structures/Handlers/EventHandler");
-const {
-  premiumDatas,
-  redeemCodes,
-  userPremiumDatas,
-} = require("../../../Schemas/index");
 const { genCode } = require("../../../Structures/Functions/index");
 const ms = require("ms");
 const {
@@ -177,6 +168,11 @@ class Premium extends Command {
       },
     });
   }
+  /**
+   *
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
+   * @param {import("../../../Structures/Classes/BotClient").BotClient} client
+   */
   async execute(interaction, client) {
     const subCmd = interaction.options.getSubcommand();
     const duration = interaction.options.getString("duration") || "30 days";
@@ -205,12 +201,12 @@ class Premium extends Command {
     }
     switch (subCmd) {
       case "add-server":
-        const add_premiumData = await premiumDatas.findOne({
+        const add_premiumData = await client.db.premiumDatas.findOne({
           guildId: guild.id,
         });
 
         if (!add_premiumData) {
-          await premiumDatas.create({
+          await client.db.premiumDatas.create({
             guildId: guild.id,
             guildName: guild.name,
             by: interaction.user.id,
@@ -235,12 +231,12 @@ class Premium extends Command {
 
         break;
       case "remove-server":
-        const remove_premiumData = await premiumDatas.findOne({
+        const remove_premiumData = await client.db.premiumDatas.findOne({
           guildId: guild.id,
         });
 
         if (remove_premiumData) {
-          await premiumDatas.findOneAndDelete({
+          await client.db.premiumDatas.findOneAndDelete({
             guildId: guild.id,
           });
           await interaction.reply({
@@ -256,7 +252,7 @@ class Premium extends Command {
         break;
       case "list-server":
         const page = interaction.options.getNumber("page") || 1;
-        const premiumData = await premiumDatas.find();
+        const premiumData = await client.db.premiumDatas.find();
         const embed = new EmbedBuilder()
           .setTitle("Premium server list")
           .setColor(Colors.Green)
@@ -286,12 +282,12 @@ class Premium extends Command {
 
         return await interaction.reply({ embeds: [embed] });
       case "add-user":
-        const userPremiumData = await userPremiumDatas.findOne({
+        const userPremiumData = await client.db.userPremiumDatas.findOne({
           userId: user.id,
         });
 
         if (!userPremiumData) {
-          await userPremiumDatas.create({
+          await client.db.userPremiumDatas.create({
             userId: user.id,
             userName: user.username,
             codeBy: interaction.user.id,
@@ -315,12 +311,12 @@ class Premium extends Command {
 
         break;
       case "remove-user":
-        const _userPremiumData = await userPremiumDatas.findOne({
+        const _userPremiumData = await client.db.userPremiumDatas.findOne({
           userId: user.id,
         });
 
         if (_userPremiumData) {
-          await userPremiumDatas.findOneAndDelete({
+          await client.db.userPremiumDatas.findOneAndDelete({
             userId: user.id,
           });
           await interaction.reply({
@@ -336,7 +332,7 @@ class Premium extends Command {
         break;
       case "list-user":
         const u_page = interaction.options.getNumber("page") || 1;
-        const u_premiumData = await userPremiumDatas.find();
+        const u_premiumData = await client.db.userPremiumDatas.find();
         const embed3 = new EmbedBuilder()
           .setTitle("Premium user list")
           .setColor(Colors.Green)
@@ -367,12 +363,12 @@ class Premium extends Command {
         return await interaction.reply({ embeds: [embed3] });
       case "generate":
         const code = genCode();
-        const redeemCode = await redeemCodes.findOne({
+        const redeemCode = await client.db.redeemCodes.findOne({
           code: code,
         });
 
         if (!redeemCode) {
-          await redeemCodes.create({
+          await client.db.redeemCodes.create({
             code: code,
             duration: ms(duration),
             by: interaction.user.id,
@@ -397,12 +393,12 @@ class Premium extends Command {
 
         break;
       case "remove-code":
-        const remove_codeData = await redeemCodes.findOne({
+        const remove_codeData = await client.db.redeemCodes.findOne({
           code: rmvCode,
         });
 
         if (remove_codeData) {
-          await redeemCodes.findOneAndDelete({
+          await client.db.redeemCodes.findOneAndDelete({
             code: rmvCode,
           });
           await interaction.reply({
@@ -418,7 +414,7 @@ class Premium extends Command {
         break;
       case "list-code":
         const _page = interaction.options.getNumber("page") || 1;
-        const _redeemCode = await redeemCodes.find();
+        const _redeemCode = await client.db.redeemCodes.find();
         const embed2 = new EmbedBuilder()
           .setTitle("code list")
           .setColor(Colors.Purple)

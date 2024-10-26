@@ -46,6 +46,11 @@ class Reload extends Command {
       },
     });
   }
+  /**
+   *
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
+   * @param {import("../../../Structures/Classes/BotClient").BotClient} client
+   */
   async execute(interaction, client) {
     const subCmd = interaction.options.getSubcommand();
     switch (subCmd) {

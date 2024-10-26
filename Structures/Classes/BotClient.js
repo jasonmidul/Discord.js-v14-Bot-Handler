@@ -1,6 +1,7 @@
 const { Client, Collection } = require("discord.js");
 const { EventHandler } = require("../Handlers/EventHandler");
 const { Logger } = require("../Functions/index");
+const Datas = require("../../Schemas/index");
 
 class BotClient extends Client {
   /**
@@ -20,6 +21,7 @@ class BotClient extends Client {
 
     //methods
     this.logger = new Logger();
+    this.db = Datas;
   }
   async start() {
     await this.registerModules();

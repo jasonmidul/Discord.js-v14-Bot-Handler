@@ -9,7 +9,10 @@ const webhook =
         url: config.logWebhook,
       })
     : undefined;
-
+/**
+ * Error handler function
+ * @param {import("../Classes/BotClient").BotClient} client
+ */
 async function ClientErrorHandler(client) {
   client.on("error", (err) => {
     logger.custom(`${err}`);

@@ -11,7 +11,10 @@ class AutoComplete extends Event {
       name: Events.InteractionCreate,
     });
   }
-
+  /**
+   *
+   * @param {import("discord.js").AutocompleteInteraction} interaction
+   */
   async execute(interaction) {
     const { client } = this;
     if (!interaction.isAutocomplete()) return;

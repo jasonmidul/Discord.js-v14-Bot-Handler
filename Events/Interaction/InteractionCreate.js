@@ -15,7 +15,10 @@ class InteractionCreate extends Event {
       name: Events.InteractionCreate,
     });
   }
-
+  /**
+   *
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
+   */
   async execute(interaction) {
     const { client } = this;
     if (interaction.type !== InteractionType.ApplicationCommand) return;

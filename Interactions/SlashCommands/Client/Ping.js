@@ -16,6 +16,12 @@ class Ping extends Command {
       },
     });
   }
+  /**
+   *
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
+   * @param {import("../../../Structures/Classes/BotClient").BotClient} client
+   * @param {string} lng
+   */
   async execute(interaction, client, lng) {
     await interaction.reply(t("command:ping.reply", { lng }));
     const msg = await interaction.fetchReply();

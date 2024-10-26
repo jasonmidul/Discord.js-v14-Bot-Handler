@@ -6,6 +6,10 @@ const redeemCodes = require("./Bot/RedeemCode");
 const userPremiumDatas = require("./User/UserPremium");
 const { Logger } = require("../Structures/Functions/index");
 const logger = new Logger();
+/**
+ *
+ * @param {import("../Structures/Classes/BotClient").BotClient} client
+ */
 
 function ConnectMongo(client) {
   if (client.config.mongoUrl) {

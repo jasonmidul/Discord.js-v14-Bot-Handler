@@ -19,7 +19,11 @@ class Ping extends Command {
       },
     });
   }
-  async execute(interaction, client) {
+  /**
+   *
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
+   */
+  async execute(interaction) {
     const confirm = new ButtonBuilder()
       .setCustomId("but1")
       .setLabel("But1")
