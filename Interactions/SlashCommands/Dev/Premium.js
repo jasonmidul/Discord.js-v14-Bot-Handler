@@ -10,8 +10,8 @@ const {
 } = require("discord.js");
 
 class Premium extends Command {
-  constructor(client) {
-    super(client, {
+  constructor(client, dir) {
+    super(client, dir, {
       data: new SlashCommandBuilder()
         .setName("premium")
         .setDescription("To add, remove and find server.")

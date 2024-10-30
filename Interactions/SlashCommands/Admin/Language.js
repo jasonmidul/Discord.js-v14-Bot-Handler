@@ -3,8 +3,8 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const { t } = require("i18next");
 
 class Language extends Command {
-  constructor(client) {
-    super(client, {
+  constructor(client, dir) {
+    super(client, dir, {
       data: new SlashCommandBuilder()
         .setName("language")
         .setDescription("Set a language for this server.")

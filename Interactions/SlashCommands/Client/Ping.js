@@ -3,8 +3,8 @@ const { SlashCommandBuilder, EmbedBuilder, Colors } = require("discord.js");
 const { t } = require("i18next");
 
 class Ping extends Command {
-  constructor(client) {
-    super(client, {
+  constructor(client, dir) {
+    super(client, dir, {
       data: new SlashCommandBuilder()
         .setName("ping")
         .setDescription("To check bot ping!")

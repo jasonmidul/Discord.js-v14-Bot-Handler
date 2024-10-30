@@ -6,8 +6,8 @@ const {
 } = require("discord.js");
 
 class Eval extends Command {
-  constructor(client) {
-    super(client, {
+  constructor(client, dir) {
+    super(client, dir, {
       data: new SlashCommandBuilder()
         .setName("eval")
         .setDescription("Eval a code.")

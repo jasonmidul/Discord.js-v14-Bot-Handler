@@ -7,8 +7,8 @@ const {
 } = require("discord.js");
 
 class Ping extends Command {
-  constructor(client) {
-    super(client, {
+  constructor(client, dir) {
+    super(client, dir, {
       data: new SlashCommandBuilder()
         .setName("button")
         .setDescription("Get the button.")

@@ -10,8 +10,8 @@ const {
 const { t } = require("i18next");
 
 class Redeem extends Command {
-  constructor(client) {
-    super(client, {
+  constructor(client, dir) {
+    super(client, dir, {
       data: new SlashCommandBuilder()
         .setName("redeem")
         .setDescription("To redeem premium code!")

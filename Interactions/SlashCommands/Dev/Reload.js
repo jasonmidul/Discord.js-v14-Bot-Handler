@@ -11,8 +11,8 @@ const { Logger } = require("../../../Structures/Functions/index");
 const logger = new Logger();
 
 class Reload extends Command {
-  constructor(client) {
-    super(client, {
+  constructor(client, dir) {
+    super(client, dir, {
       data: new SlashCommandBuilder()
         .setName("reload")
         .setDescription("Reload commands/events!")

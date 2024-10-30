@@ -40,7 +40,7 @@ class CommandHandler {
 
       commandFolder.forEach(async (file) => {
         const commandFile = require(`../../Interactions/SlashCommands/${dir}/${file}`);
-        const command = new commandFile(client);
+        const command = new commandFile(client, dir);
 
         if (dir == "Dev") {
           client.slashCommands.set(command.data.name, command);
