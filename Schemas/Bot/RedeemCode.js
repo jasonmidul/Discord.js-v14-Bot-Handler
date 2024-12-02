@@ -13,10 +13,6 @@ const codeSchema = new Schema({
     type: String,
     required: true,
   },
-  for: {
-    type: String,
-    required: true,
-  },
 });
 
 module.exports = model("RedeemCodes", codeSchema);

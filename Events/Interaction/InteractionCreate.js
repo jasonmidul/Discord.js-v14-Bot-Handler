@@ -62,30 +62,6 @@ class InteractionCreate extends Event {
         ephemeral: true,
       });
     }
-    if (command.options?.premiumUser) {
-      const premiumData = await userPremiumDatas.findOne({
-        userId: interaction.user.id,
-      });
-      if (!premiumData) {
-        return interaction.reply({
-          content: t("event.command.userPremium", { lng }),
-          ephemeral: true,
-        });
-      }
-      if (premiumData.redeemAt + premiumData.duration <= Date.now()) {
-        interaction.reply({
-          content: t("event.command.userPremiumEnd", {
-            lng,
-            duration: parseInt(
-              `${(premiumData.redeemAt + premiumData.duration) / 1000}`
-            ),
-          }),
-        });
-        return await userPremiumDatas.findOneAndDelete({
-          userId: interaction.user.id,
-        });
-      }
-    }
     if (command.options?.premiumGuild) {
       const premiumData = await premiumDatas.findOne({
         guildId: interaction.guildId,

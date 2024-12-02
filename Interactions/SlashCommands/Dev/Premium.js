@@ -67,54 +67,6 @@ class Premium extends Command {
         )
         .addSubcommand((subCommand) =>
           subCommand
-            .setName("add-user")
-            .setDescription("Add a premium user!")
-            .addStringOption((option) =>
-              option
-                .setName("user-id")
-                .setDescription("Which user you want to set as premium")
-                .setRequired(true)
-            )
-            .addStringOption((option) =>
-              option
-                .setName("duration")
-                .setDescription(
-                  "Set a duration. (example: 7days, 1month/default: 30days)"
-                )
-                .setRequired(true)
-                .addChoices(
-                  { name: "Weekly", value: "1 week" },
-                  { name: "Monthly", value: "30 day" },
-                  { name: "Half Yearly", value: "182.5 day" },
-                  { name: "Yearly", value: "365 day" },
-                  { name: "Life Time", value: "18250 day" }
-                )
-            )
-        )
-        .addSubcommand((subCommand) =>
-          subCommand
-            .setName("remove-user")
-            .setDescription("Remove a premium user!")
-            .addStringOption((option) =>
-              option
-                .setName("user-id")
-                .setDescription("Which user you want to remove from premium")
-                .setRequired(true)
-            )
-        )
-        .addSubcommand((subCommand) =>
-          subCommand
-            .setName("list-user")
-            .setDescription("See the list of premium users")
-            .addNumberOption((num) => {
-              return num
-                .setName("page")
-                .setRequired(false)
-                .setDescription("Select a page to view");
-            })
-        )
-        .addSubcommand((subCommand) =>
-          subCommand
             .setName("generate")
             .setDescription("To generate a redeem codee!")
             .addStringOption((option) =>
@@ -128,16 +80,6 @@ class Premium extends Command {
                   { name: "Half Yearly", value: "182.5 day" },
                   { name: "Yearly", value: "365 day" },
                   { name: "Life Time", value: "18250 day" }
-                )
-            )
-            .addStringOption((option) =>
-              option
-                .setName("for")
-                .setDescription("The redeem code for server or user")
-                .setRequired(true)
-                .addChoices(
-                  { name: "Server", value: "guild" },
-                  { name: "User", value: "user" }
                 )
             )
         )
@@ -177,20 +119,9 @@ class Premium extends Command {
     const subCmd = interaction.options.getSubcommand();
     const duration = interaction.options.getString("duration") || "30 days";
     const gId = interaction.options.getString("server-id");
-    const uId = interaction.options.getString("user-id");
     const rmvCode = interaction.options.getString("code");
-    const _for = interaction.options.getString("for");
 
     let guild;
-    let user;
-    if (uId) {
-      user = await client.users.fetch(uId);
-      if (!user)
-        return await interaction.reply({
-          content: "> I could not locate this user.",
-          ephemeral: true,
-        });
-    }
     if (gId) {
       guild = await client.guilds.cache.get(gId);
       if (!guild)
@@ -280,87 +211,9 @@ class Premium extends Command {
           });
         }
 
-        return await interaction.reply({ embeds: [embed] });
-      case "add-user":
-        const userPremiumData = await client.db.userPremiumDatas.findOne({
-          userId: user.id,
-        });
+        await interaction.reply({ embeds: [embed] });
+        return;
 
-        if (!userPremiumData) {
-          await client.db.userPremiumDatas.create({
-            userId: user.id,
-            userName: user.username,
-            codeBy: interaction.user.id,
-            duration: ms(duration),
-            redeemAt: Date.now(),
-          });
-          await interaction.reply({
-            content: `> \`${user.id}\`**(${
-              user.username
-            })** sucessfully added to premium user till <t:${parseInt(
-              `${(Date.now() + ms(duration)) / 1000}`
-            )}:R>.`,
-            ephemeral: true,
-          });
-        } else {
-          await interaction.reply({
-            content: `> \`${user.id}\`**(${user.username})**  already in premium user.`,
-            ephemeral: true,
-          });
-        }
-
-        break;
-      case "remove-user":
-        const _userPremiumData = await client.db.userPremiumDatas.findOne({
-          userId: user.id,
-        });
-
-        if (_userPremiumData) {
-          await client.db.userPremiumDatas.findOneAndDelete({
-            userId: user.id,
-          });
-          await interaction.reply({
-            content: `> \`${user.id}\`**(${user.username})** sucessfully removed from premium user.`,
-            ephemeral: true,
-          });
-        } else {
-          await interaction.reply({
-            content: `> \`${user.id}\`**(${user.username})**  is no a premium user.`,
-            ephemeral: true,
-          });
-        }
-        break;
-      case "list-user":
-        const u_page = interaction.options.getNumber("page") || 1;
-        const u_premiumData = await client.db.userPremiumDatas.find();
-        const embed3 = new EmbedBuilder()
-          .setTitle("Premium user list")
-          .setColor(Colors.Green)
-          .setTimestamp();
-
-        const upageNum = 10 * u_page - 10;
-        if (u_premiumData.length < upageNum) {
-          return await interaction.reply({
-            content: `> Unable to find page no \`${u_page}\`.`,
-            ephemeral: true,
-          });
-        }
-        if (u_premiumData.length >= 11) {
-          embed.setFooter({
-            text: `page ${u_page} of ${Math.ceil(u_premiumData.length / 10)}`,
-          });
-        }
-
-        for (const user of u_premiumData.splice(upageNum, 10)) {
-          embed3.addFields({
-            name: `${user.userName}`,
-            value: `> ${user.userId} expire <t:${parseInt(
-              `${(user.redeemAt + user.duration) / 1000}`
-            )}:R>`,
-          });
-        }
-
-        return await interaction.reply({ embeds: [embed3] });
       case "generate":
         const code = genCode();
         const redeemCode = await client.db.redeemCodes.findOne({
@@ -372,7 +225,6 @@ class Premium extends Command {
             code: code,
             duration: ms(duration),
             by: interaction.user.id,
-            for: _for,
           });
           await interaction.reply({
             content: `> Here is your code for <t:${parseInt(

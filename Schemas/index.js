@@ -3,7 +3,6 @@ const botDatas = require("./Bot/BotDatas");
 const premiumDatas = require("./Server/PremiumDatas");
 const languageDatas = require("./Server/LanguageData");
 const redeemCodes = require("./Bot/RedeemCode");
-const userPremiumDatas = require("./User/UserPremium");
 const { Logger } = require("../Structures/Functions/index");
 const logger = new Logger();
 /**
@@ -31,6 +30,5 @@ module.exports = {
   botDatas,
   premiumDatas,
   redeemCodes,
-  userPremiumDatas,
   languageDatas,
 };

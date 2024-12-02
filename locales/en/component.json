@@ -4,11 +4,7 @@
     },
     "modal": {
         "redeemModal": {
-            "validCode": "> Oops! Please enter a valid code to redeem.",
-            "errUserCode": "> It looks like you're trying to redeem a user premium code here. Please use `/redeem` in my DM to apply your premium code.",
-            "userPremiumExist": "> You're already on our premium list, no need to redeem again!",
-            "userSuccess": "Congrats! You're now a premium user starting today, and your access will expire <t:{{duration}}:R>.",
-            "errGuildCode": "> It seems you're trying to redeem a server premium code here. Please use `/redeem` in a server with Administrator permissions to apply it.",
+            "notValidCode": "> Oops! Please enter a valid code to redeem.",
             "guildPremiumExist": "> This server is already enjoying premium status!",
             "guildSuccess": "Success! This server is now a premium server, and the premium access will expire <t:{{duration}}:R>."
         }

@@ -15,6 +15,7 @@ class Redeem extends Command {
       data: new SlashCommandBuilder()
         .setName("redeem")
         .setDescription("To redeem premium code!")
+        .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     });
   }
