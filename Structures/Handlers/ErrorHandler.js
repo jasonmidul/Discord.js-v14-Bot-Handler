@@ -27,6 +27,7 @@ async function ClientErrorHandler(client) {
   });
 }
 async function ErrorHandler() {
+  const webhook = config.logWebhook.length > 0 ? new WebhookClient({url: config.logWebhook,}): undefined;
   logger.success("Error Handler has been loaded");
 
   process.on("unhandledRejection", (reason, promise) => {
