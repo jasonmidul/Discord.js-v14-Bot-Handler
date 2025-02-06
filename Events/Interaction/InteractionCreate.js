@@ -1,12 +1,11 @@
 const Event = require("../../Structures/Classes/BaseEvent");
-const { jsonFind, Logger } = require("../../Structures/Functions/index");
+const { jsonFind } = require("../../Structures/Functions/index");
 const {
   premiumDatas,
   userPremiumDatas,
   languageDatas,
 } = require("../../Schemas/index.js");
 const { Events, InteractionType } = require("discord.js");
-const logger = new Logger();
 const { t } = require("i18next");
 
 class InteractionCreate extends Event {
@@ -90,7 +89,7 @@ class InteractionCreate extends Event {
     try {
       await command.execute(interaction, client, lng);
     } catch (error) {
-      logger.error(error);
+      client.logger.error(error);
       if (interaction.replied) {
         await interaction.editReply({
           content: t("event.command.fail", { lng }),

@@ -1,7 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const { Logger } = require("../Functions/index");
-const logger = new Logger();
 
 class ComponentHandler {
   constructor() {}
@@ -47,9 +45,9 @@ class ComponentHandler {
       });
     });
 
-    logger.info(`${buttonCount} Buttons has been loaded.`);
-    logger.info(`${modalCount} Modals has been loaded.`);
-    logger.info(`${autoCompleteCount} AutoComplete has been loaded.`);
+    client.logger.info(`${buttonCount} Buttons has been loaded.`);
+    client.logger.info(`${modalCount} Modals has been loaded.`);
+    client.logger.info(`${autoCompleteCount} AutoComplete has been loaded.`);
   }
 }
 

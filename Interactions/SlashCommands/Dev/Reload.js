@@ -7,8 +7,6 @@ const {
 } = require("../../../Structures/Handlers/ComponentHandler");
 const { EventHandler } = require("../../../Structures/Handlers/EventHandler");
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const { Logger } = require("../../../Structures/Functions/index");
-const logger = new Logger();
 
 class Reload extends Command {
   constructor(client, dir) {
@@ -65,7 +63,7 @@ class Reload extends Command {
             ephemeral: true,
           });
         } catch (error) {
-          logger.error(error);
+          client.logger.error(error);
         }
         break;
       case "component":
@@ -77,7 +75,7 @@ class Reload extends Command {
             ephemeral: true,
           });
         } catch (error) {
-          logger.error(error);
+          client.logger.error(error);
         }
         break;
       case "events":
@@ -91,7 +89,7 @@ class Reload extends Command {
             ephemeral: true,
           });
         } catch (error) {
-          logger.error(error);
+          client.logger.error(error);
         }
       default:
         break;

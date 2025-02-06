@@ -1,7 +1,5 @@
 const Event = require("../../Structures/Classes/BaseEvent");
 const { Events } = require("discord.js");
-const { Logger } = require("../../Structures/Functions/index");
-const logger = new Logger();
 const { languageDatas } = require("../../Schemas/index");
 const { t } = require("i18next");
 
@@ -37,7 +35,7 @@ class ButtonCreate extends Event {
     try {
       await button.execute(interaction, client, lng);
     } catch (error) {
-      logger.error(error);
+      client.logger.error(error);
       if (interaction.replied) {
         await interaction.editReply({
           content: t("event.button.fail", { lng }),

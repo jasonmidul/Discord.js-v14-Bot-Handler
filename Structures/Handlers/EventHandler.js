@@ -1,8 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const AsciiTable = require("ascii-table");
-const { Logger } = require("../Functions/index");
-const logger = new Logger();
 
 class EventHandler {
   constructor() {}
@@ -55,7 +53,7 @@ class EventHandler {
       });
     });
     console.log(EventsTable.toString());
-    logger.success(`</> • ${eventCount} Events has been loaded.`);
+    client.logger.success(`</> • ${eventCount} Events has been loaded.`);
   }
 }
 

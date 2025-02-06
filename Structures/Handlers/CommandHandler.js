@@ -1,8 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const AsciiTable = require("ascii-table");
-const { Logger } = require("../Functions/index");
-const logger = new Logger();
 
 class CommandHandler {
   constructor() {}
@@ -60,14 +58,16 @@ class CommandHandler {
       });
     });
     console.log(CommandsTable.toString());
-    logger.info(`</> • ${cmdCount} Slash commands has been loaded.`);
-    logger.info(`</> • ${devCmdCount} Developer commands has been loaded.`);
+    client.logger.info(`</> • ${cmdCount} Slash commands has been loaded.`);
+    client.logger.info(
+      `</> • ${devCmdCount} Developer commands has been loaded.`
+    );
 
     if (update) {
       await (async () => {
         try {
           await client.application.commands.set(commandArray);
-          logger.success(
+          client.logger.success(
             `</> • ${cmdCount} Slash commands has been registered globally.`
           );
           client.config.devGuilds.forEach(async (devGuild) => {
@@ -75,13 +75,13 @@ class CommandHandler {
 
             if (guild) {
               guild.commands.set(devCommandArray);
-              logger.warn(
+              client.logger.warn(
                 `</> • Dev Commands registered for guild "${devGuild.name}"`
               );
             }
           });
         } catch (error) {
-          logger.error(error);
+          client.logger.error(error);
         }
       })();
     }

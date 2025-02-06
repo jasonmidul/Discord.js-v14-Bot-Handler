@@ -1,7 +1,5 @@
 const { WebhookClient } = require("discord.js");
 const { inspect } = require("util");
-const { Logger } = require("../Functions/index");
-const logger = new Logger();
 const config = require("../../config");
 const webhook =
   config.logWebhook.length > 0
@@ -15,7 +13,7 @@ const webhook =
  */
 async function ClientErrorHandler(client) {
   client.on("error", (err) => {
-    logger.custom(`${err}`);
+    client.logger.custom(`${err}`);
 
     if (webhook) {
       return webhook.send({
@@ -26,12 +24,20 @@ async function ClientErrorHandler(client) {
     }
   });
 }
-async function ErrorHandler() {
-  const webhook = config.logWebhook.length > 0 ? new WebhookClient({url: config.logWebhook,}): undefined;
-  logger.success("Error Handler has been loaded");
+
+/**
+ * Error handler function
+ * @param {import("../Classes/BotClient").BotClient} client
+ */
+async function ErrorHandler(client) {
+  const webhook =
+    config.logWebhook.length > 0
+      ? new WebhookClient({ url: config.logWebhook })
+      : undefined;
+  client.logger.success("Error Handler has been loaded");
 
   process.on("unhandledRejection", (reason, promise) => {
-    logger.custom(`${reason}`);
+    client.logger.custom(`${reason}`);
 
     if (webhook) {
       webhook.send({
@@ -53,7 +59,7 @@ async function ErrorHandler() {
   });
 
   process.on("uncaughtException", (err, origin) => {
-    logger.custom(`${err}`);
+    client.logger.custom(`${err}`);
 
     if (webhook) {
       webhook.send({
@@ -75,7 +81,7 @@ async function ErrorHandler() {
   });
 
   process.on("uncaughtExceptionMonitor", (err, origin) => {
-    logger.custom(`${err}`);
+    client.logger.custom(`${err}`);
 
     if (webhook) {
       webhook.send({
@@ -97,7 +103,7 @@ async function ErrorHandler() {
   });
 
   process.on("warning", (warn) => {
-    logger.custom(`${warn}`);
+    client.logger.custom(`${warn}`);
 
     if (webhook) {
       webhook.send({

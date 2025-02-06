@@ -3,8 +3,7 @@ const botDatas = require("./Bot/BotDatas");
 const premiumDatas = require("./Server/PremiumDatas");
 const languageDatas = require("./Server/LanguageData");
 const redeemCodes = require("./Bot/RedeemCode");
-const { Logger } = require("../Structures/Functions/index");
-const logger = new Logger();
+
 /**
  *
  * @param {import("../Structures/Classes/BotClient").BotClient} client
@@ -12,17 +11,17 @@ const logger = new Logger();
 
 function ConnectMongo(client) {
   if (client.config.mongoUrl) {
-    logger.info("Trying to connect with database...");
+    client.logger.info("Trying to connect with database...");
     mongoose.set("strictQuery", false);
     mongoose
       .connect(client.config.mongoUrl)
       .then((data) => {
-        logger.success(
+        client.logger.success(
           `Database has been connected to: "${data.connection.name}"`
         );
       })
-      .catch((err) => logger.error(err));
-  } else logger.warn(`You forget to add mongoUrl in config.js`);
+      .catch((err) => client.logger.error(err));
+  } else client.logger.warn(`You forget to add mongoUrl in config.js`);
 }
 
 module.exports = {
