@@ -6,8 +6,6 @@ const {
 const { loadLanguages } = require("../../Structures/Handlers/LanguageHandler");
 const { ConnectMongo } = require("../../Schemas/index");
 const { Events, ActivityType, PresenceUpdateStatus } = require("discord.js");
-const { Logger } = require("../../Structures/Functions/index");
-const logger = new Logger();
 
 class Ready extends Event {
   constructor(client) {
@@ -16,6 +14,10 @@ class Ready extends Event {
     });
   }
 
+  /**
+   *
+   * @param {import("../../Structures/Classes/BotClient").BotClient} client
+   */
   async execute(client) {
     setInterval(() => {
       const activitys = [
@@ -41,15 +43,17 @@ class Ready extends Event {
       await loadCommands(client, client.config.deploySlashOnReady);
       await loadComponents(client);
     } catch (error) {
-      logger.error(error);
+      client.logger.error(error);
     }
 
-    logger.success(`${client.user.username}(#${client.cluster.id}) is ready!`);
+    client.logger.success(
+      `${client.user.username}(#${client.cluster.id}) is ready!`
+    );
 
     try {
       await ConnectMongo(client);
     } catch (error) {
-      logger.error(error);
+      client.logger.error(error);
     }
   }
 }

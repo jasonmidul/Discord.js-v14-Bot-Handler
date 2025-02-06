@@ -22,7 +22,7 @@ const client = new BotClient({
 });
 client.cluster = new ClusterClient(client);
 
-ErrorHandler();
+ErrorHandler(client);
 ClientErrorHandler(client);
 
 client.start();

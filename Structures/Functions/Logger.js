@@ -1,5 +1,5 @@
 const { WebhookClient } = require("discord.js");
-const { inspect } = require("util");
+const path = require("path");
 const config = require("../../config");
 const webhook =
   config.logWebhook.length > 0
@@ -9,35 +9,24 @@ const webhook =
     : undefined;
 
 class Logger {
-  constructor() {
-    this.origin = this._getLogOrigin().split(/[\\/]/).pop();
-  }
-  _getLogOrigin() {
-    let filename;
+  constructor() {}
 
-    let _pst = Error.prepareStackTrace;
-    Error.prepareStackTrace = function (err, stack) {
-      return stack;
-    };
-    try {
-      let err = new Error();
-      let callerfile;
-      let currentfile;
-
-      currentfile = err.stack.shift().getFileName();
-
-      while (err.stack.length) {
-        callerfile = err.stack.shift().getFileName();
-
-        if (currentfile !== callerfile) {
-          filename = callerfile;
-          break;
-        }
-      }
-    } catch (err) {}
-    Error.prepareStackTrace = _pst;
-
-    return filename;
+  /**
+   * A function to retrieve the filename
+   * @returns {string}
+   */
+  get origin() {
+    const _ = Error.prepareStackTrace;
+    Error.prepareStackTrace = (error, stack) => stack;
+    const { stack } = new Error();
+    Error.prepareStackTrace = _;
+    const callers = stack.map((x) => x.getFileName());
+    const firstExternalFilePath = callers.find((x) => {
+      return x !== callers[0];
+    });
+    return firstExternalFilePath
+      ? path.basename(firstExternalFilePath)
+      : "anonymous";
   }
 
   error(content) {
