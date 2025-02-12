@@ -36,11 +36,12 @@ module.exports = async (interaction, embeds) => {
     text: `Page ${pages[id] + 1} from ${Pagemax}`,
   });
 
-  const replyEmbed = await interaction.reply({
+  await interaction.reply({
     embeds: [embed],
     components: [getRow(id)],
-    fetchReply: true,
   });
+
+  let replyEmbed = await interaction.fetchReply();
 
   const filter = (i) => i.user.id === interaction.user.id;
   const time = 1000 * 60 * 5;
@@ -69,8 +70,9 @@ module.exports = async (interaction, embeds) => {
     await interaction.editReply({
       embeds: [embeds[pages[id]]],
       components: [getRow(id)],
-      fetchReply: true,
     });
+
+    replyEmbed = await interaction.fetchReply();
   });
   collector.on("end", async () => {
     try {
